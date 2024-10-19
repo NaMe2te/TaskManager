@@ -8,6 +8,8 @@ public class TrackableEntityConfig<TId> : IEntityTypeConfiguration<TrackableEnti
 {
     public void Configure(EntityTypeBuilder<TrackableEntity<TId>> builder)
     {
+        builder.HasBaseType(typeof(BaseEntity<>));
+        
         builder.Property(x => x.DateCreated).ValueGeneratedOnAdd();
         builder.Property(x => x.LastUpdated).ValueGeneratedOnAddOrUpdate();
     }
