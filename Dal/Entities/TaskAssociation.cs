@@ -2,11 +2,11 @@
 
 namespace Dal.Entities;
 
-public class TaskAssociation : BaseEntity<int>
+public class TaskAssociation : BaseEntity<long>
 {
-    public int ParentTaskId { get; set; }
+    public long ParentTaskId { get; set; }
     public Task ParentTask { get; set; }
 
-    public int AssociatedTaskId { get; set; }
+    public long AssociatedTaskId { get; set; }
     public Task AssociatedTask { get; set; }
 }

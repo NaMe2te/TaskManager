@@ -9,18 +9,20 @@ public class CommentEfConfig : IEntityTypeConfiguration<Comment>
 {
     public void Configure(EntityTypeBuilder<Comment> builder)
     {
-        builder.HasBaseType(typeof(TrackableEntity<>));
+        builder.HasBaseType(typeof(SoftDeletableEntity<>));
         
+        builder.Property(x => x.TaskId).IsRequired();
+        builder.Property(x => x.CommentedBy).IsRequired();
         builder.Property(x => x.Text).HasMaxLength(1000).IsRequired();
         
         builder.HasOne(x => x.Task)
             .WithMany(t => t.Comments)
             .HasForeignKey(x => x.TaskId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
         
         builder.HasOne(x => x.Commenter)
             .WithMany(u => u.Comments)
             .HasForeignKey(x => x.CommentedBy)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

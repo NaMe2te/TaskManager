@@ -1,14 +1,27 @@
-﻿namespace Dal.Entities;
+﻿using Dal.Entities.BaseEntities;
 
-public class CommitHistory
+namespace Dal.Entities;
+
+public class CommitHistory : BaseEntity<long>
 {
-    public int CommitId { get; set; }
+    public CommitHistory(string commitHash, DateTime commitDate, int commitNumber, long authorId, long taskId)
+    {
+        CommitHash = commitHash;
+        CommitDate = commitDate;
+        CommitNumber = commitNumber;
+        AuthorId = authorId;
+        TaskId = taskId;
+    }
+    
+    protected CommitHistory() { }
+    
     public string CommitHash { get; set; }
-    public DateTime CommitDate { get; set; } = DateTime.Now;
-    public int AuthorId { get; set; }
+    public DateTime CommitDate { get; set; }
     public int CommitNumber { get; set; }
-    public int TaskId { get; set; }
 
-    public virtual User Author { get; set; }
+    public long AuthorId { get; set; }
+    public User Author { get; set; }
+    
+    public long TaskId { get; set; }
     public Task Task { get; set; }
 }
