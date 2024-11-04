@@ -4,6 +4,24 @@ namespace Dal.Entities;
 
 public class Task : TrackableEntity<long>
 {
+    public Task(string title, string description, long createdBy, int statusId, long? assignedTo = null, DateTime? dueDate = null)
+    {
+        Title = title;
+        Description = description;
+        DueDate = dueDate;
+        CreatedBy = createdBy;
+        AssignedTo = assignedTo;
+        StatusId = statusId;
+        ParentTasks = new List<TaskAssociation>();
+        AssociatedTasks = new List<TaskAssociation>();
+        TaskCollaborators = new List<TaskCollaborator>();
+        Comments = new List<Comment>();
+        TaskHistories = new List<TaskHistory>();
+        CommitHistories = new List<CommitHistory>();
+    }
+    
+    protected Task() { }
+
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime? DueDate { get; set; }

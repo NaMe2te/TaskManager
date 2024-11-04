@@ -4,6 +4,20 @@ namespace Dal.Entities;
 
 public class User : TrackableEntity<long>
 {
+    public User(string fullName, string email, int roleId)
+    {
+        FullName = fullName;
+        Email = email;
+        RoleId = roleId;
+        CreatedTasks = new List<Task>();
+        AssignedTasks = new List<Task>();
+        TaskCollaborators = new List<TaskCollaborator>();
+        Comments = new List<Comment>();
+        TaskHistories = new List<TaskHistory>();
+    }
+
+    protected User() { }
+    
     public string FullName { get; set; }
     public string Email { get; set; }
 

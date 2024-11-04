@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
 
-public class SoftDeletableEfConfig<Id> : IEntityTypeConfiguration<SoftDeletableEntity<Id>>
+public class SoftDeletableEfConfig<TId> : IEntityTypeConfiguration<SoftDeletableEntity<TId>>
 {
-    public void Configure(EntityTypeBuilder<SoftDeletableEntity<Id>> builder)
+    public void Configure(EntityTypeBuilder<SoftDeletableEntity<TId>> builder)
     {
         builder.HasBaseType(typeof(TrackableEntity<>));
         

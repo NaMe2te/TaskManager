@@ -11,18 +11,18 @@ public class CommentEfConfig : IEntityTypeConfiguration<Comment>
     {
         builder.HasBaseType(typeof(SoftDeletableEntity<>));
         
-        builder.Property(x => x.TaskId).IsRequired();
-        builder.Property(x => x.CommentedBy).IsRequired();
         builder.Property(x => x.Text).HasMaxLength(1000).IsRequired();
         
         builder.HasOne(x => x.Task)
             .WithMany(t => t.Comments)
             .HasForeignKey(x => x.TaskId)
+            .IsRequired()
             .OnDelete(DeleteBehavior.NoAction);
         
         builder.HasOne(x => x.Commenter)
             .WithMany(u => u.Comments)
             .HasForeignKey(x => x.CommentedBy)
+            .IsRequired()
             .OnDelete(DeleteBehavior.NoAction);
     }
 }
