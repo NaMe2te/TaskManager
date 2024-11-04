@@ -4,14 +4,18 @@ namespace Dal.Entities;
 
 public class TaskHistory : TrackableEntity<int>
 {
-    public TaskHistory(long taskId, int statusId)
+    public TaskHistory(long userId, long taskId, int statusId)
     {
+        UserId = userId;
         TaskId = taskId;
         OldStatusId = statusId;
         NewStatusId = statusId;
     }
 
     protected TaskHistory() { }
+    
+    public long UserId { get; set; }
+    public User User { get; set; }
     
     public long TaskId { get; set; }
     public Task Task { get; set; }

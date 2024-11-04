@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class User : TrackableEntity<long>
+public class User : SoftDeletableEntity<long>
 {
     public User(string fullName, string email, int roleId)
     {

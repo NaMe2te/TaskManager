@@ -1,4 +1,5 @@
 ﻿using Dal.Entities;
+using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,6 +9,8 @@ public class ProjectAccessEfConfig : IEntityTypeConfiguration<ProjectAccess>
 {
     public void Configure(EntityTypeBuilder<ProjectAccess> builder)
     {
+        builder.HasBaseType(typeof(SoftDeletableEntity<>));
+        
         builder.Property(pa => pa.Access).IsRequired();
         
         builder.HasIndex(pa => new { pa.ProjectId, pa.UserId }).IsUnique();

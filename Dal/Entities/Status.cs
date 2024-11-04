@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class Status : TrackableEntity<int>
+public class Status : SoftDeletableEntity<int>
 {
     public Status(string name)
     {
