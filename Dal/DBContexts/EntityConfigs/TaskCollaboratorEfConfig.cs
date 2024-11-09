@@ -15,7 +15,7 @@ public class TaskCollaboratorEfConfig : IEntityTypeConfiguration<TaskCollaborato
             .WithMany(tc => tc.TaskCollaborators)
             .HasForeignKey(tc => tc.TaskId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder.HasOne(tc => tc.Collaborator)
             .WithMany(u => u.TaskCollaborators)

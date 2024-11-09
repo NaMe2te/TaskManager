@@ -26,8 +26,8 @@ public class UserEfConfig : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.AssignedTasks)
             .WithOne(t => t.Assignee)
             .HasForeignKey(t => t.AssignedTo)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.SetNull);
         
         builder.HasMany(u => u.TaskCollaborators)
             .WithOne(tc => tc.Collaborator)

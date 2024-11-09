@@ -6,7 +6,7 @@ namespace Dal.Entities;
 /// <summary>
 /// Таблица для выдачи юзерам доступа к проектам
 /// </summary>
-public class ProjectAccess : SoftDeletableEntity<long>
+public class ProjectAccess : TrackableEntity<long>
 {
     public ProjectAccess(long projectId, long userId, Access access)
     {

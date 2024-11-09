@@ -9,7 +9,7 @@ public class OrganizationEfConfig : IEntityTypeConfiguration<Organization>
 {
     public void Configure(EntityTypeBuilder<Organization> builder)
     {
-        builder.HasBaseType(typeof(SoftDeletableEntity<>));
+        builder.HasBaseType(typeof(TrackableEntity<>));
 
         builder.Property(o => o.Name).HasMaxLength(100).IsRequired();
 
@@ -17,6 +17,6 @@ public class OrganizationEfConfig : IEntityTypeConfiguration<Organization>
             .WithOne(p => p.Organization)
             .HasForeignKey(c => c.OrganizationId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

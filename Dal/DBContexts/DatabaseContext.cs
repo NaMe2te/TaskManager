@@ -1,6 +1,11 @@
-﻿namespace Dal.DBContexts;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class DatabaseContext
+namespace Dal.DBContexts;
+
+public class DatabaseContext : DbContext
 {
-    
+    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+    {
+        Database.EnsureCreated();
+    }
 }

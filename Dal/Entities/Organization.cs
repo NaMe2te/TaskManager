@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class Organization : SoftDeletableEntity<long>
+public class Organization : TrackableEntity<long>
 {
     public Organization(string name)
     {

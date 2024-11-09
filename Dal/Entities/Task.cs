@@ -4,12 +4,13 @@ namespace Dal.Entities;
 
 public class Task : TrackableEntity<long>
 {
-    public Task(string title, string description, long createdBy, long? assignedTo = null, int? statusId = null, DateTime? dueDate = null)
+    public Task(string title, string description, long createdBy, long projectId, long? assignedTo = null, int? statusId = null, DateTime? dueDate = null)
     {
         Title = title;
         Description = description;
         DueDate = dueDate;
         CreatedBy = createdBy;
+        ProjectId = projectId;
         AssignedTo = assignedTo;
         StatusId = statusId;
         AssociatedTasks = new List<TaskAssociation>();
@@ -28,11 +29,15 @@ public class Task : TrackableEntity<long>
     public long CreatedBy { get; set; }
     public User Creator { get; set; }
     
+    public long ProjectId { get; set; }
+    public Project Project { get; set; }
+    
+    public Status? Status { get; set; }
+    
     public long? AssignedTo { get; set; }
     public User? Assignee { get; set; }
     
     public int? StatusId { get; set; }
-    public Status? Status { get; set; }
     
     public ICollection<TaskAssociation> AssociatedTasks { get; set; }
     public ICollection<TaskCollaborator> TaskCollaborators { get; set; }

@@ -49,12 +49,12 @@ public class TaskEfConfig : IEntityTypeConfiguration<Entities.Task>
         builder.HasMany(t => t.TaskCollaborators)
             .WithOne(tc => tc.Task)
             .HasForeignKey(tc => tc.TaskId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(t => t.Comments)
             .WithOne(c => c.Task)
             .HasForeignKey(c => c.TaskId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(t => t.TaskHistories)
             .WithOne(th => th.Task)

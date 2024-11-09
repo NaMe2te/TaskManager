@@ -2,12 +2,13 @@
 
 namespace Dal.Entities;
 
-public class Project : SoftDeletableEntity<long>
+public class Project : TrackableEntity<long>
 {
     public Project(string name, long organizationId)
     {
         Name = name;
         OrganizationId = organizationId;
+        Tasks = new List<Task>();
     }
     
     protected Project() { }
@@ -16,4 +17,6 @@ public class Project : SoftDeletableEntity<long>
     
     public long OrganizationId { get; set; }
     public Organization Organization { get; set; }
+    
+    public ICollection<Task> Tasks { get; set; }
 }

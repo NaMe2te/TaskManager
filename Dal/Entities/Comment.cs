@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class Comment : SoftDeletableEntity<long>
+public class Comment : TrackableEntity<long>
 {
     public Comment(string text, long taskId, long commentedBy)
     {

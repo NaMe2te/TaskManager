@@ -9,7 +9,7 @@ public class ProjectEfConfig : IEntityTypeConfiguration<Project>
 {
     public void Configure(EntityTypeBuilder<Project> builder)
     {
-        builder.HasBaseType(typeof(SoftDeletableEntity<>));
+        builder.HasBaseType(typeof(TrackableEntity<>));
 
         builder.HasIndex(p => p.Name).IsUnique();
         builder.Property(p => p.Name).HasMaxLength(50).IsRequired();
@@ -18,6 +18,12 @@ public class ProjectEfConfig : IEntityTypeConfiguration<Project>
             .WithMany(o => o.Projects)
             .HasForeignKey(p => p.OrganizationId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(p => p.Tasks)
+            .WithOne(t => t.Project)
+            .HasForeignKey(t => t.ProjectId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

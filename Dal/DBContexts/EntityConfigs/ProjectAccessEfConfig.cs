@@ -9,7 +9,7 @@ public class ProjectAccessEfConfig : IEntityTypeConfiguration<ProjectAccess>
 {
     public void Configure(EntityTypeBuilder<ProjectAccess> builder)
     {
-        builder.HasBaseType(typeof(SoftDeletableEntity<>));
+        builder.HasBaseType(typeof(TrackableEntity<>));
         
         builder.Property(pa => pa.Access).IsRequired();
         
@@ -19,7 +19,7 @@ public class ProjectAccessEfConfig : IEntityTypeConfiguration<ProjectAccess>
             .WithMany()
             .HasForeignKey(pa => pa.ProjectId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder.HasOne(pa => pa.User)
             .WithMany()
