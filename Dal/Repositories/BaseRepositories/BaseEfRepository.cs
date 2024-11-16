@@ -44,47 +44,52 @@ public class BaseEfRepository<TEntity> : IBaseRepository<TEntity> where TEntity 
         return _context.Set<TEntity>().Remove(model).Entity;
     }
 
-    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
+    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, params string[] includes)
     {
-        return await _context.Set<TEntity>().FirstAsync(predicate);
+        return await ApplyIncludes(_context.Set<TEntity>(), includes).FirstAsync(predicate);
     }
 
-    public TEntity Get(Expression<Func<TEntity, bool>> predicate)
+    public TEntity Get(Expression<Func<TEntity, bool>> predicate, params string[] includes)
     {
-        return _context.Set<TEntity>().First(predicate);
+        return ApplyIncludes(_context.Set<TEntity>(), includes).First(predicate);
     }
 
-    public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate)
+    public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, params string[] includes)
     {
-        return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+        return await ApplyIncludes(_context.Set<TEntity>(), includes).FirstOrDefaultAsync(predicate);
     }
 
-    public TEntity? Find(Expression<Func<TEntity, bool>> predicate)
+    public TEntity? Find(Expression<Func<TEntity, bool>> predicate, params string[] includes)
     {
-        return _context.Set<TEntity>().FirstOrDefault(predicate);
+        return ApplyIncludes(_context.Set<TEntity>(), includes).FirstOrDefault(predicate);
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null)
+    public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, params string[] includes)
     {
-        IQueryable<TEntity> queryable = _context.Set<TEntity>();
+        var query = ApplyIncludes(_context.Set<TEntity>(), includes);
         
         if (predicate is not null)
         {
-            queryable = queryable.Where(predicate);
+            query = query.Where(predicate);
         }
         
-        return await queryable.ToListAsync();
+        return await query.ToListAsync();
     }
 
-    public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null)
+    public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, params string[] includes)
     {
-        IQueryable<TEntity> queryable = _context.Set<TEntity>();
+        var query = ApplyIncludes(_context.Set<TEntity>(), includes);
 
         if (predicate is not null)
         {
-            queryable = queryable.Where(predicate);
+            query = query.Where(predicate);
         }
 
-        return queryable.ToList();
+        return query.ToList();
+    }
+    
+    private static IQueryable<TEntity> ApplyIncludes(IQueryable<TEntity> query, IEnumerable<string> includes)
+    {
+        return includes.Aggregate(query, (current, include) => current.Include(include));
     }
 }

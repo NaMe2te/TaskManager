@@ -13,12 +13,12 @@ public interface IBaseRepository<TEntity> where TEntity : class
     Task<TEntity> DeleteAsync(TEntity model);
     TEntity Delete(TEntity model);
     
-    Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
-    TEntity Get(Expression<Func<TEntity, bool>> predicate);
+    Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, params string[] includes);
+    TEntity Get(Expression<Func<TEntity, bool>> predicate, params string[] includes);
     
-    Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate);
-    TEntity? Find(Expression<Func<TEntity, bool>> predicate);
+    Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, params string[] includes);
+    TEntity? Find(Expression<Func<TEntity, bool>> predicate, params string[] includes);
     
-    Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null);
-    IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null);
+    Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, params string[] includes);
+    IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, params string[] includes);
 }
