@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using AutoMapper;
+using Dal.Models;
 using Dal.Repositories.BaseRepositories;
 using Dal.UnitOfWork;
 
@@ -50,9 +51,9 @@ public class BaseCrudService<TEntity, TDto> : IBaseCrudService<TEntity, TDto>
         return _mapper.Map<TDto>(entity);
     }
 
-    public async Task<IEnumerable<TDto>> GetAll(Expression<Func<TEntity, bool>>? predicate = null, params string[] includes)
+    public async Task<IEnumerable<TDto>> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes)
     {
-        var entities = await _repository.GetAllAsync(predicate, includes);
+        var entities = await _repository.GetAllAsync(predicate, paginationParams, includes);
         return _mapper.Map<IEnumerable<TDto>>(entities);
     }
 }

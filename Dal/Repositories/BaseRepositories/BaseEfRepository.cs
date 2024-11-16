@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Dal.DBContexts;
+using Dal.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dal.Repositories.BaseRepositories;
@@ -64,7 +65,7 @@ public class BaseEfRepository<TEntity> : IBaseRepository<TEntity> where TEntity 
         return ApplyIncludes(_context.Set<TEntity>(), includes).FirstOrDefault(predicate);
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, params string[] includes)
+    public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes)
     {
         var query = ApplyIncludes(_context.Set<TEntity>(), includes);
         
@@ -73,16 +74,29 @@ public class BaseEfRepository<TEntity> : IBaseRepository<TEntity> where TEntity 
             query = query.Where(predicate);
         }
         
+        if (paginationParams is not null)
+        {
+            query = query.Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
+                .Take(paginationParams.PageSize);
+        }
+        
         return await query.ToListAsync();
     }
 
-    public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, params string[] includes)
+    public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes)
     {
         var query = ApplyIncludes(_context.Set<TEntity>(), includes);
 
         if (predicate is not null)
         {
             query = query.Where(predicate);
+        }
+        
+
+        if (paginationParams is not null)
+        {
+            query = query.Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
+                .Take(paginationParams.PageSize);
         }
 
         return query.ToList();

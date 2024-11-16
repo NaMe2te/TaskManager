@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Dal.Models;
 
 namespace Dal.Repositories.BaseRepositories;
 
@@ -19,6 +20,6 @@ public interface IBaseRepository<TEntity> where TEntity : class
     Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, params string[] includes);
     TEntity? Find(Expression<Func<TEntity, bool>> predicate, params string[] includes);
     
-    Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, params string[] includes);
-    IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, params string[] includes);
+    Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes);
+    IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes);
 }
