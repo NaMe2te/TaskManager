@@ -6,7 +6,7 @@ namespace Presentation.Controllers;
 
 public class TaskHistoryController : BaseController<TaskHistory, TaskHistoryDto, int>
 {
-    public TaskHistoryController(IBaseCrudService<TaskHistory, TaskHistoryDto> service) : base(service)
+    public TaskHistoryController(IBaseCrudService<TaskHistory, TaskHistoryDto, int> service) : base(service)
     {
     }
 }

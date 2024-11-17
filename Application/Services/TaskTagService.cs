@@ -6,9 +6,9 @@ using Dal.UnitOfWork;
 
 namespace Application.Services;
 
-public class TaskTagService : BaseCrudService<TaskTag, TaskTagDto>
+public class TaskTagService : BaseCrudService<TaskTag, TaskTagDto, int>
 {
-    protected TaskTagService(IBaseRepository<TaskTag> repository, IMapper mapper, IUnitOfWork unitOfWork) : base(repository, mapper, unitOfWork)
-    {
-    }
+    public TaskTagService(IBaseRepository<TaskTag> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+        : base(repository, mapper, unitOfWork)
+    { }
 }

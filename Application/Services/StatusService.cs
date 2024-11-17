@@ -6,9 +6,9 @@ using Dal.UnitOfWork;
 
 namespace Application.Services;
 
-public class StatusService : BaseCrudService<Status, StatusDto>
+public class StatusService : BaseCrudService<Status, StatusDto, int>
 {
-    protected StatusService(IBaseRepository<Status> repository, IMapper mapper, IUnitOfWork unitOfWork) : base(repository, mapper, unitOfWork)
-    {
-    }
+    public StatusService(IBaseRepository<Status> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+        : base(repository, mapper, unitOfWork)
+    { }
 }

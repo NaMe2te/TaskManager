@@ -2,6 +2,8 @@ using Dal.DBContexts;
 using Dal.Entities;
 using Dal.Repositories;
 using Dal.Repositories.BaseRepositories;
+using Dal.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Task = Dal.Entities.Task;
@@ -16,6 +18,7 @@ public static class Bootstrapper
         services.AddScoped<IBaseRepository<CommitHistory>, CommitHistoryEfRepository>();
         services.AddScoped<IBaseRepository<Organization>, OrganizationEfRepository>();
         services.AddScoped<IBaseRepository<ProjectAccess>, ProjectAccessEfRepository>();
+        services.AddScoped<IBaseRepository<Project>, ProjectEfRepository>();
         services.AddScoped<IBaseRepository<Role>, RoleEfRepository>();
         services.AddScoped<IBaseRepository<Status>, StatusEfRepository>();
         services.AddScoped<IBaseRepository<TaskAssociation>, TaskAssociationEfRepository>();
@@ -24,7 +27,7 @@ public static class Bootstrapper
         services.AddScoped<IBaseRepository<TaskHistory>, TaskHistoryEfRepository>();
         services.AddScoped<IBaseRepository<TaskTag>, TaskTagEfRepository>();
         services.AddScoped<IBaseRepository<User>, UserEfRepository>();
-        
+
         return services;
     }
 
@@ -32,8 +35,14 @@ public static class Bootstrapper
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        // TODO: добавить конфиг базе
-        services.AddDbContext<DatabaseContext>();
+        services.AddDbContext<DatabaseContext>(x => x.UseNpgsql(connectionString));
+
+        return services;
+    }
+
+    public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork<DatabaseContext>>();
         
         return services;
     }

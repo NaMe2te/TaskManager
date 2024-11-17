@@ -6,7 +6,7 @@ namespace Presentation.Controllers;
 
 public class OrganisationController : BaseController<Organization, OrganizationDto, long>
 {
-    public OrganisationController(IBaseCrudService<Organization, OrganizationDto> service) : base(service)
+    public OrganisationController(IBaseCrudService<Organization, OrganizationDto, long> service) : base(service)
     {
     }
 }

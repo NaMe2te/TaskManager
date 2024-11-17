@@ -6,9 +6,9 @@ using Dal.UnitOfWork;
 
 namespace Application.Services;
 
-public class ProjectAccessService : BaseCrudService<ProjectAccess, ProjectAccessDto>
+public class ProjectAccessService : BaseCrudService<ProjectAccess, ProjectAccessDto, long>
 {
-    protected ProjectAccessService(IBaseRepository<ProjectAccess> repository, IMapper mapper, IUnitOfWork unitOfWork) : base(repository, mapper, unitOfWork)
-    {
-    }
+    public ProjectAccessService(IBaseRepository<ProjectAccess> repository, IMapper mapper, IUnitOfWork unitOfWork)
+        : base(repository, mapper, unitOfWork)
+    { }
 }

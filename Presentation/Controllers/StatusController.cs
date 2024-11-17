@@ -6,7 +6,7 @@ namespace Presentation.Controllers;
 
 public class StatusController : BaseController<Status, StatusDto, int>
 {
-    public StatusController(IBaseCrudService<Status, StatusDto> service) : base(service)
+    public StatusController(IBaseCrudService<Status, StatusDto, int> service) : base(service)
     {
     }
 }

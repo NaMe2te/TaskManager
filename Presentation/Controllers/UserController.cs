@@ -6,7 +6,7 @@ namespace Presentation.Controllers;
 
 public class UserController : BaseController<User, UserDto, long>
 {
-    public UserController(IBaseCrudService<User, UserDto> service) : base(service)
+    public UserController(IBaseCrudService<User, UserDto, long> service) : base(service)
     {
     }
 }

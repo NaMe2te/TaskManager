@@ -6,9 +6,9 @@ using Dal.UnitOfWork;
 
 namespace Application.Services;
 
-public class CommentService : BaseCrudService<Comment, CommentDto>
+public class CommentService : BaseCrudService<Comment, CommentDto, long>
 {
-    protected CommentService(IBaseRepository<Comment> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+    public CommentService(IBaseRepository<Comment> repository, IMapper mapper, IUnitOfWork unitOfWork) 
         : base(repository, mapper, unitOfWork)
     { }
 }

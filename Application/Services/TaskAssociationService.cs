@@ -6,9 +6,9 @@ using Dal.UnitOfWork;
 
 namespace Application.Services;
 
-public class TaskAssociationService : BaseCrudService<TaskAssociation, TaskAssociationDto>
+public class TaskAssociationService : BaseCrudService<TaskAssociation, TaskAssociationDto, long>
 {
-    protected TaskAssociationService(IBaseRepository<TaskAssociation> repository, IMapper mapper, IUnitOfWork unitOfWork) : base(repository, mapper, unitOfWork)
-    {
-    }
+    public TaskAssociationService(IBaseRepository<TaskAssociation> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+        : base(repository, mapper, unitOfWork)
+    { }
 }

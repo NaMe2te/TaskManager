@@ -6,9 +6,9 @@ using Dal.UnitOfWork;
 
 namespace Application.Services;
 
-public class TaskCollaboratorService : BaseCrudService<TaskCollaborator, TaskCollaboratorDto>
+public class TaskCollaboratorService : BaseCrudService<TaskCollaborator, TaskCollaboratorDto, long>
 {
-    protected TaskCollaboratorService(IBaseRepository<TaskCollaborator> repository, IMapper mapper, IUnitOfWork unitOfWork) : base(repository, mapper, unitOfWork)
-    {
-    }
+    public TaskCollaboratorService(IBaseRepository<TaskCollaborator> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+        : base(repository, mapper, unitOfWork)
+    { }
 }

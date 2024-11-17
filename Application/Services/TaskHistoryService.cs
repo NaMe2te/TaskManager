@@ -6,9 +6,9 @@ using Dal.UnitOfWork;
 
 namespace Application.Services;
 
-public class TaskHistoryService : BaseCrudService<TaskHistory, TaskHistoryDto>
+public class TaskHistoryService : BaseCrudService<TaskHistory, TaskHistoryDto, int>
 {
-    protected TaskHistoryService(IBaseRepository<TaskHistory> repository, IMapper mapper, IUnitOfWork unitOfWork) : base(repository, mapper, unitOfWork)
-    {
-    }
+    public TaskHistoryService(IBaseRepository<TaskHistory> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+        : base(repository, mapper, unitOfWork)
+    { }
 }

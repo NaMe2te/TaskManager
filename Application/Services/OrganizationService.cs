@@ -6,9 +6,9 @@ using Dal.UnitOfWork;
 
 namespace Application.Services;
 
-public class OrganizationService : BaseCrudService<Organization, OrganizationDto>
+public class OrganizationService : BaseCrudService<Organization, OrganizationDto, long>
 {
-    protected OrganizationService(IBaseRepository<Organization> repository, IMapper mapper, IUnitOfWork unitOfWork) : base(repository, mapper, unitOfWork)
-    {
-    }
+    public OrganizationService(IBaseRepository<Organization> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+        : base(repository, mapper, unitOfWork)
+    { }
 }

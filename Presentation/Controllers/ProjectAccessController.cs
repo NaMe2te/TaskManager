@@ -6,7 +6,7 @@ namespace Presentation.Controllers;
 
 public class ProjectAccessController : BaseController<ProjectAccess, ProjectAccessDto, long>
 {
-    public ProjectAccessController(IBaseCrudService<ProjectAccess, ProjectAccessDto> service) : base(service)
+    public ProjectAccessController(IBaseCrudService<ProjectAccess, ProjectAccessDto, long> service) : base(service)
     {
     }
 }

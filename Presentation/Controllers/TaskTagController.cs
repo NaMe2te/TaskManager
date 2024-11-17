@@ -6,7 +6,7 @@ namespace Presentation.Controllers;
 
 public class TaskTagController : BaseController<TaskTag, TaskTagDto, int>
 {
-    public TaskTagController(IBaseCrudService<TaskTag, TaskTagDto> service) : base(service)
+    public TaskTagController(IBaseCrudService<TaskTag, TaskTagDto, int> service) : base(service)
     {
     }
 }

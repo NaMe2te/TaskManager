@@ -6,9 +6,9 @@ using Dal.UnitOfWork;
 
 namespace Application.Services;
 
-public class RoleService : BaseCrudService<Role, RoleDto>
+public class RoleService : BaseCrudService<Role, RoleDto, int>
 {
-    protected RoleService(IBaseRepository<Role> repository, IMapper mapper, IUnitOfWork unitOfWork) : base(repository, mapper, unitOfWork)
-    {
-    }
+    public RoleService(IBaseRepository<Role> repository, IMapper mapper, IUnitOfWork unitOfWork)
+        : base(repository, mapper, unitOfWork)
+    { }
 }

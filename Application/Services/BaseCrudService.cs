@@ -1,13 +1,14 @@
 using System.Linq.Expressions;
 using AutoMapper;
+using Dal.Entities.BaseEntities;
 using Dal.Models;
 using Dal.Repositories.BaseRepositories;
 using Dal.UnitOfWork;
 
 namespace Application.Services;
 
-public class BaseCrudService<TEntity, TDto> : IBaseCrudService<TEntity, TDto>
-    where TEntity : class
+public class BaseCrudService<TEntity, TDto, TId> : IBaseCrudService<TEntity, TDto, TId>
+    where TEntity : BaseEntity<TId>
     where TDto : class
 {
     protected readonly IBaseRepository<TEntity> _repository;
@@ -45,9 +46,9 @@ public class BaseCrudService<TEntity, TDto> : IBaseCrudService<TEntity, TDto>
         return _mapper.Map<TDto>(entity);
     }
 
-    public async Task<TDto> Get(Expression<Func<TEntity, bool>> predicate, params string[] includes)
+    public async Task<TDto> GetById(TId id)
     {
-        var entity = await _repository.GetAsync(predicate, includes);
+        var entity = await _repository.GetAsync(x => x.Id!.Equals(id));
         return _mapper.Map<TDto>(entity);
     }
 

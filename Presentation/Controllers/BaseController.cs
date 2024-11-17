@@ -12,37 +12,46 @@ public abstract class BaseController<TEntity, TDto, TId> : ControllerBase
     where TEntity : BaseEntity<TId>
     where TDto : class
 {
-    protected readonly IBaseCrudService<TEntity, TDto> _service;
+    protected readonly IBaseCrudService<TEntity, TDto, TId> _service;
 
-    protected BaseController(IBaseCrudService<TEntity, TDto> service)
+    protected BaseController(IBaseCrudService<TEntity, TDto, TId> service)
     {
         _service = service;
     }
 
-    [HttpGet(nameof(GetAll))]
+    [HttpGet]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<ActionResult<IEnumerable<TDto>>> GetAll([FromBody] PaginationParams? paginationParams = null)
+    public virtual async Task<ActionResult<IEnumerable<TDto>>> GetAll([FromBody] PaginationParams? paginationParams = null)
     {
         var dtos = await _service.GetAll(paginationParams: paginationParams);
         return Ok(dtos);
     }
-
-    [HttpPost(nameof(Create))]
+    
+    [HttpGet("{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<ActionResult<TDto>> Create([FromBody] TDto dto)
+    public virtual async Task<ActionResult<IEnumerable<TDto>>> Get([FromRoute] TId id)
+    {
+        var dto = await _service.GetById(id);
+        return Ok(dto);
+    }
+
+    [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public virtual async Task<ActionResult<TDto>> Create([FromBody] TDto dto)
     {
         return Ok(await _service.Add(dto));
     }
 
-    [HttpPut(nameof(Update))]
+    [HttpPut]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<ActionResult<TDto>> Update([FromBody] TDto dto)
+    public virtual async Task<ActionResult<TDto>> Update([FromBody] TDto dto)
     {
         return Ok(await _service.Update(dto));
     }
     
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<ActionResult> Remove([FromBody] TDto dto)
+    [HttpDelete]
+    public virtual async Task<ActionResult> Remove([FromBody] TDto dto)
     {
         await _service.Remove(dto);
         return Ok();

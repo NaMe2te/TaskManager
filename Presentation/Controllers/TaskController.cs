@@ -6,7 +6,7 @@ namespace Presentation.Controllers;
 
 public class TaskController : BaseController<Task, TaskDto, long>
 {
-    public TaskController(IBaseCrudService<Task, TaskDto> service) : base(service)
+    public TaskController(IBaseCrudService<Task, TaskDto, long> service) : base(service)
     {
     }
 }

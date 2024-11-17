@@ -6,9 +6,9 @@ using Task = Dal.Entities.Task;
 
 namespace Application.Services;
 
-public class TaskService : BaseCrudService<Task, TaskDto>
+public class TaskService : BaseCrudService<Task, TaskDto, long>
 {
-    protected TaskService(IBaseRepository<Task> repository, IMapper mapper, IUnitOfWork unitOfWork) : base(repository, mapper, unitOfWork)
-    {
-    }
+    public TaskService(IBaseRepository<Task> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+        : base(repository, mapper, unitOfWork)
+    { }
 }

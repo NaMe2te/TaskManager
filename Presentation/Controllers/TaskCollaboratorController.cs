@@ -6,7 +6,7 @@ namespace Presentation.Controllers;
 
 public class TaskCollaboratorController : BaseController<TaskCollaborator, TaskCollaboratorDto, long>
 {
-    public TaskCollaboratorController(IBaseCrudService<TaskCollaborator, TaskCollaboratorDto> service) : base(service)
+    public TaskCollaboratorController(IBaseCrudService<TaskCollaborator, TaskCollaboratorDto, long> service) : base(service)
     {
     }
 }

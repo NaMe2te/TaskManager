@@ -6,7 +6,7 @@ namespace Presentation.Controllers;
 
 public class TaskAssociationController : BaseController<TaskAssociation, TaskAssociationDto, long>
 {
-    public TaskAssociationController(IBaseCrudService<TaskAssociation, TaskAssociationDto> service) : base(service)
+    public TaskAssociationController(IBaseCrudService<TaskAssociation, TaskAssociationDto, long> service) : base(service)
     {
     }
 }
