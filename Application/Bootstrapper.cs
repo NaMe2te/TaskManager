@@ -22,7 +22,7 @@ public static class Bootstrapper
         services.AddScoped<IBaseCrudService<TaskAssociation, TaskAssociationDto, long>, TaskAssociationService>();
         services.AddScoped<IBaseCrudService<TaskCollaborator, TaskCollaboratorDto, long>, TaskCollaboratorService>();
         services.AddScoped<IBaseCrudService<TaskHistory, TaskHistoryDto, int>, TaskHistoryService>();
-        services.AddScoped<IBaseCrudService<Task, TaskDto, long>, TaskService>();
+        services.AddScoped<IBaseCrudService<Task, TaskDto, int>, TaskService>();
         services.AddScoped<IBaseCrudService<TaskTag, TaskTagDto, int>, TaskTagService>();
         
         return services;
