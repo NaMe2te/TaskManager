@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class TaskAssociation : TrackableEntity<long>
+public class TaskAssociation : BaseEntity<long>
 {
     public TaskAssociation(long parentTaskId, long associatedTaskId)
     {

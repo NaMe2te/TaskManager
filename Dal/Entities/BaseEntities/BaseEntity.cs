@@ -10,4 +10,6 @@
 public abstract class BaseEntity<TId>
 {
     public TId Id { get; set; }
+    public DateTime DateCreated { get; set; }
+    public DateTime LastUpdated { get; set; }
 }

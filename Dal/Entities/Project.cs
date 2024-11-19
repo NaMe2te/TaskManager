@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class Project : TrackableEntity<long>
+public class Project : BaseEntity<long>
 {
     public Project(string name, long organizationId)
     {

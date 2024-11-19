@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class Task : TrackableEntity<long>
+public class Task : BaseEntity<long>
 {
     public Task(string title, string description, long createdBy, long projectId, long? assignedTo = null, int? statusId = null, DateTime? dueDate = null)
     {

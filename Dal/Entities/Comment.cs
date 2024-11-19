@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class Comment : TrackableEntity<long>
+public class Comment : BaseEntity<long>
 {
     public Comment(string text, long taskId, long commentedBy)
     {

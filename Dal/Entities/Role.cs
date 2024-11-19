@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class Role : TrackableEntity<int>
+public class Role : BaseEntity<int>
 {
     public Role(string name)
     {

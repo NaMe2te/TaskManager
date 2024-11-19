@@ -6,7 +6,7 @@
 ///     <see cref="DBContexts.EntityConfigs.BaseEntityConfigs.SoftDeletableEfConfig"/>
 /// </para>
 /// </summary>
-public abstract class SoftDeletableEntity<TId> : TrackableEntity<TId>
+public abstract class SoftDeletableEntity<TId> : BaseEntity<TId>
 {
     public SoftDeletableEntity()
     {

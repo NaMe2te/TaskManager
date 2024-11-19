@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class CommitHistory : TrackableEntity<long>
+public class CommitHistory : BaseEntity<long>
 {
     public CommitHistory(string commitHash, DateTime commitDate, int commitNumber, long authorId, long taskId)
     {

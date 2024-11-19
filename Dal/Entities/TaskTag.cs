@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class TaskTag : TrackableEntity<int>
+public class TaskTag : BaseEntity<int>
 {
     public TaskTag(string name)
     {

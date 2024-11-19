@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class TaskCollaborator : TrackableEntity<long>
+public class TaskCollaborator : BaseEntity<long>
 {
     public TaskCollaborator(long taskId, long collaboratorId)
     {

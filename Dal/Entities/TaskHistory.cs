@@ -2,7 +2,7 @@
 
 namespace Dal.Entities;
 
-public class TaskHistory : TrackableEntity<int>
+public class TaskHistory : BaseEntity<int>
 {
     public TaskHistory(long userId, long taskId, int statusId)
     {
