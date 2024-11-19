@@ -4,11 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
 
-public class BaseEntityConfig<TId> : IEntityTypeConfiguration<BaseEntity<TId>>
+public abstract class BaseEntityConfig<TEntity, TId> : IEntityTypeConfiguration<TEntity>
+    where TEntity : BaseEntity<TId>
 {
-    public void Configure(EntityTypeBuilder<BaseEntity<TId>> builder)
+    public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
         builder.HasKey(b => b.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
+        
+        builder.Property(x => x.DateCreated).ValueGeneratedOnAdd();
+        builder.Property(x => x.LastUpdated).ValueGeneratedOnAddOrUpdate();
     }
 }

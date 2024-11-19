@@ -1,15 +1,16 @@
-﻿using Dal.Entities;
+﻿using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
+using Dal.Entities;
 using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class ProjectAccessEfConfig : IEntityTypeConfiguration<ProjectAccess>
+public class ProjectAccessEfConfig : BaseEntityConfig<ProjectAccess, long>
 {
-    public void Configure(EntityTypeBuilder<ProjectAccess> builder)
+    public override void Configure(EntityTypeBuilder<ProjectAccess> builder)
     {
-        builder.HasBaseType(typeof(TrackableEntity<>));
+        base.Configure(builder);
         
         builder.Property(pa => pa.Access).IsRequired();
         

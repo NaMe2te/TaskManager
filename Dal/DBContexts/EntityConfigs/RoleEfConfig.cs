@@ -1,15 +1,14 @@
-﻿using Dal.Entities;
-using Dal.Entities.BaseEntities;
-using Microsoft.EntityFrameworkCore;
+﻿using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
+using Dal.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class RoleEfConfig : IEntityTypeConfiguration<Role>
+public class RoleEfConfig : BaseEntityConfig<Role, int>
 {
-    public void Configure(EntityTypeBuilder<Role> builder)
+    public override void Configure(EntityTypeBuilder<Role> builder)
     {
-        builder.HasBaseType(typeof(TrackableEntity<>));
+        base.Configure(builder);
         
         builder.Property(r => r.Name).HasMaxLength(50).IsRequired();
     }

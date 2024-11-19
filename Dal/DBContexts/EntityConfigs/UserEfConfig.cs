@@ -1,3 +1,4 @@
+using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
 using Dal.Entities;
 using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
@@ -5,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class UserEfConfig : IEntityTypeConfiguration<User>
+public class UserEfConfig : BaseEntityConfig<User, long>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public override void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.HasBaseType(typeof(SoftDeletableEntity<>));
+        base.Configure(builder);
         
         builder.HasOne(u => u.Role)
             .WithMany()

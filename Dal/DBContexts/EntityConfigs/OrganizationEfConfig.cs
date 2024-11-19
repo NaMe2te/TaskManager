@@ -1,16 +1,17 @@
-﻿using Dal.Entities;
+﻿using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
+using Dal.Entities;
 using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class OrganizationEfConfig : IEntityTypeConfiguration<Organization>
+public class OrganizationEfConfig : BaseEntityConfig<Organization, long>
 {
-    public void Configure(EntityTypeBuilder<Organization> builder)
+    public override void Configure(EntityTypeBuilder<Organization> builder)
     {
-        builder.HasBaseType(typeof(TrackableEntity<>));
-
+        base.Configure(builder);
+        
         builder.Property(o => o.Name).HasMaxLength(100).IsRequired();
 
         builder.HasMany(o => o.Projects)

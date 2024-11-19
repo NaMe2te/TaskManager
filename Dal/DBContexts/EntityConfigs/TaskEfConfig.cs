@@ -1,14 +1,15 @@
-﻿using Dal.Entities.BaseEntities;
+﻿using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
+using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class TaskEfConfig : IEntityTypeConfiguration<Entities.Task>
+public class TaskEfConfig : BaseEntityConfig<Entities.Task, long>
 {
-    public void Configure(EntityTypeBuilder<Entities.Task> builder)
+    public override void Configure(EntityTypeBuilder<Entities.Task> builder)
     {
-        builder.HasBaseType(typeof(TrackableEntity<>));
+        base.Configure(builder);
         
         builder.Property(t => t.Title).IsRequired().HasMaxLength(200);
         builder.Property(t => t.Description).IsRequired().HasMaxLength(1000);

@@ -1,3 +1,4 @@
+using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
 using Dal.Entities;
 using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
@@ -5,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class TaskCollaboratorEfConfig : IEntityTypeConfiguration<TaskCollaborator>
+public class TaskCollaboratorEfConfig : BaseEntityConfig<TaskCollaborator, long>
 {
-    public void Configure(EntityTypeBuilder<TaskCollaborator> builder)
+    public override void Configure(EntityTypeBuilder<TaskCollaborator> builder)
     {
-        builder.HasBaseType(typeof(TrackableEntity<>));
+        base.Configure(builder);
         
         builder.HasOne(tc => tc.Task)
             .WithMany(tc => tc.TaskCollaborators)

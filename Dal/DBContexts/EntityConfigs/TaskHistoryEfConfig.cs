@@ -1,3 +1,4 @@
+using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
 using Dal.Entities;
 using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
@@ -5,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class TaskHistoryEfConfig : IEntityTypeConfiguration<TaskHistory>
+public class TaskHistoryEfConfig : BaseEntityConfig<TaskHistory, int>
 {
-    public void Configure(EntityTypeBuilder<TaskHistory> builder)
+    public override void Configure(EntityTypeBuilder<TaskHistory> builder)
     {
-        builder.HasBaseType(typeof(TrackableEntity<>));
+        base.Configure(builder);
         
         builder.HasOne(t => t.User)
             .WithMany(u => u.TaskHistories)

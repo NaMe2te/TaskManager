@@ -1,15 +1,15 @@
+using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
 using Dal.Entities;
-using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class TaskAssociationEfConfig : IEntityTypeConfiguration<TaskAssociation>
+public class TaskAssociationEfConfig : BaseEntityConfig<TaskAssociation, long>
 {
-    public void Configure(EntityTypeBuilder<TaskAssociation> builder)
+    public override void Configure(EntityTypeBuilder<TaskAssociation> builder)
     {
-        builder.HasBaseType(typeof(TrackableEntity<>));
+        base.Configure(builder);
         
         builder.HasOne(ta => ta.ParentTask)
             .WithMany(t => t.AssociatedTasks)

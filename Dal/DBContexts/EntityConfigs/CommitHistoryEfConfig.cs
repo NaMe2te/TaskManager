@@ -1,15 +1,16 @@
-﻿using Dal.Entities;
+﻿using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
+using Dal.Entities;
 using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class CommitHistoryEfConfig : IEntityTypeConfiguration<CommitHistory>
+public class CommitHistoryEfConfig : BaseEntityConfig<CommitHistory, long>
 {
-    public void Configure(EntityTypeBuilder<CommitHistory> builder)
+    public override void Configure(EntityTypeBuilder<CommitHistory> builder)
     {
-        builder.HasBaseType(typeof(BaseEntity<>));
+        base.Configure(builder);
 
         builder.Property(ch => ch.CommitHash).IsRequired();
         builder.Property(ch => ch.CommitDate).ValueGeneratedOnAdd().IsRequired();

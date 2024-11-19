@@ -1,15 +1,15 @@
-﻿using Dal.Entities;
-using Dal.Entities.BaseEntities;
+﻿using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
+using Dal.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class CommentEfConfig : IEntityTypeConfiguration<Comment>
+public class CommentEfConfig : BaseEntityConfig<Comment, long>
 {
-    public void Configure(EntityTypeBuilder<Comment> builder)
+    public override void Configure(EntityTypeBuilder<Comment> builder)
     {
-        builder.HasBaseType(typeof(TrackableEntity<>));
+        base.Configure(builder);
         
         builder.Property(x => x.Text).HasMaxLength(1000).IsRequired();
         

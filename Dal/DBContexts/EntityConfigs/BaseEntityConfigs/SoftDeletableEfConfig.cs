@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
 
-public class SoftDeletableEfConfig<TId> : IEntityTypeConfiguration<SoftDeletableEntity<TId>>
+public abstract class SoftDeletableEfConfig<TEntity, TId> : BaseEntityConfig<TEntity, TId>
+    where TEntity : SoftDeletableEntity<TId>
 {
-    public void Configure(EntityTypeBuilder<SoftDeletableEntity<TId>> builder)
+    public override void Configure(EntityTypeBuilder<TEntity> builder)
     {
-        builder.HasBaseType(typeof(TrackableEntity<>));
+        base.Configure(builder);
         
         builder.Property(sd => sd.IsDeleted).IsRequired();
         builder.Property(sd => sd.DateDeleted).IsRequired(false);
