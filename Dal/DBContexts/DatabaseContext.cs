@@ -1,6 +1,6 @@
 ﻿using Dal.Entities;
 using Microsoft.EntityFrameworkCore;
-using Task = System.Threading.Tasks.Task;
+using Task = Dal.Entities.Task;
 
 namespace Dal.DBContexts;
 
