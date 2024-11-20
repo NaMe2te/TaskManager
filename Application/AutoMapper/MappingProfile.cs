@@ -46,11 +46,9 @@ public class MappingProfile : Profile
     private void CreateProjectMap()
     {
         CreateMap<Project, ProjectDto>()
-            .ForMember(dest => dest.OrganizationName, opt => opt.MapFrom(src => src.Organization.Name)) // Маппим имя организации
-            .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.Tasks)); // Маппим коллекцию задач
+            .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.Tasks));
 
         CreateMap<ProjectDto, Project>()
-            .ForMember(dest => dest.Organization, opt => opt.Ignore()) // Игнорируем Organization (объект)
             .ForMember(dest => dest.Tasks, opt => opt.Ignore());
     }
 

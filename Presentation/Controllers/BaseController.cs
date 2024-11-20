@@ -13,6 +13,8 @@ public abstract class BaseController<TEntity, TDto, TId> : ControllerBase
     where TDto : class
 {
     protected readonly IBaseCrudService<TEntity, TDto, TId> _service;
+    
+    protected virtual int PageSize => 10;
 
     protected BaseController(IBaseCrudService<TEntity, TDto, TId> service)
     {
@@ -21,8 +23,15 @@ public abstract class BaseController<TEntity, TDto, TId> : ControllerBase
 
     [HttpGet]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public virtual async Task<ActionResult<IEnumerable<TDto>>> GetAll([FromBody] PaginationParams? paginationParams = null)
+    public virtual async Task<ActionResult<IEnumerable<TDto>>> GetAll([FromQuery] int? pageNumber = 1)
     {
+        PaginationParams? paginationParams = null;
+        
+        if (pageNumber is not null)
+        {
+            paginationParams = new PaginationParams(pageNumber.Value, PageSize);
+        }
+        
         var dtos = await _service.GetAll(paginationParams: paginationParams);
         return Ok(dtos);
     }
