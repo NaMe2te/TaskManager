@@ -8,7 +8,7 @@ namespace Application.Services;
 
 public class ProjectService : BaseCrudService<Project, ProjectDto, long>
 {
-    public ProjectService(IBaseRepository<Project> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+    public ProjectService(IBaseRepository<Project, long> repository, IMapper mapper, IUnitOfWork unitOfWork) 
         : base(repository, mapper, unitOfWork)
     { }
 }

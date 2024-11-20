@@ -10,9 +10,17 @@ public abstract class BaseEntityConfig<TEntity, TId> : IEntityTypeConfiguration<
     public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
         builder.HasKey(b => b.Id);
-        builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        
-        builder.Property(x => x.DateCreated).ValueGeneratedOnAdd();
-        builder.Property(x => x.LastUpdated).ValueGeneratedOnAddOrUpdate();
+        builder.Property(x => x.Id).UseIdentityColumn();
+
+        builder.Property(x => x.DateCreated)
+               .HasConversion(
+                   v => v.ToUniversalTime(),
+                   v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+               );
+        builder.Property(x => x.LastUpdated)
+                .HasConversion(
+                    v => v.ToUniversalTime(),
+                    v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+                );
     }
 }

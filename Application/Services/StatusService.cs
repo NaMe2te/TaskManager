@@ -8,7 +8,7 @@ namespace Application.Services;
 
 public class StatusService : BaseCrudService<Status, StatusDto, int>
 {
-    public StatusService(IBaseRepository<Status> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+    public StatusService(IBaseRepository<Status, int> repository, IMapper mapper, IUnitOfWork unitOfWork) 
         : base(repository, mapper, unitOfWork)
     { }
 }

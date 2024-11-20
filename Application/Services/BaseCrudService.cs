@@ -11,11 +11,11 @@ public class BaseCrudService<TEntity, TDto, TId> : IBaseCrudService<TEntity, TDt
     where TEntity : BaseEntity<TId>
     where TDto : class
 {
-    protected readonly IBaseRepository<TEntity> _repository;
+    protected readonly IBaseRepository<TEntity, TId> _repository;
     protected readonly IUnitOfWork _unitOfWork;
     protected readonly IMapper _mapper;
     
-    protected BaseCrudService(IBaseRepository<TEntity> repository, IMapper mapper, IUnitOfWork unitOfWork)
+    protected BaseCrudService(IBaseRepository<TEntity, TId> repository, IMapper mapper, IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _mapper = mapper;

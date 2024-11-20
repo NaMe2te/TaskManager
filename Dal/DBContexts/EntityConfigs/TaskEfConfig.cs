@@ -13,7 +13,10 @@ public class TaskEfConfig : BaseEntityConfig<Entities.Task, long>
         
         builder.Property(t => t.Title).IsRequired().HasMaxLength(200);
         builder.Property(t => t.Description).IsRequired().HasMaxLength(1000);
-        builder.Property(t => t.DueDate).IsRequired(false);
+        builder.Property(t => t.DueDate).HasConversion(
+                    v => v.HasValue ? v.Value.ToUniversalTime() : DateTime.Now.ToUniversalTime(),
+                    v => DateTime.SpecifyKind(v, DateTimeKind.Utc))
+                .IsRequired(false);
         
         builder.HasOne(t => t.Creator)
             .WithMany(u => u.CreatedTasks)

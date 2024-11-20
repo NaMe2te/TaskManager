@@ -8,7 +8,7 @@ namespace Application.Services;
 
 public class OrganizationService : BaseCrudService<Organization, OrganizationDto, long>
 {
-    public OrganizationService(IBaseRepository<Organization> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+    public OrganizationService(IBaseRepository<Organization, long> repository, IMapper mapper, IUnitOfWork unitOfWork) 
         : base(repository, mapper, unitOfWork)
     { }
 }

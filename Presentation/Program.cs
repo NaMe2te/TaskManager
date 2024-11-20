@@ -9,6 +9,8 @@ builder.Services.AddRepositories();
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddUnitOfWork();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen();

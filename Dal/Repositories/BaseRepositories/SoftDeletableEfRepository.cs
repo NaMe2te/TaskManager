@@ -3,7 +3,7 @@ using Dal.Entities.BaseEntities;
 
 namespace Dal.Repositories.BaseRepositories;
 
-public class SoftDeletableEfRepository<TSoftDeletableEntity, TId> : BaseEfRepository<TSoftDeletableEntity>
+public class SoftDeletableEfRepository<TSoftDeletableEntity, TId> : BaseEfRepository<TSoftDeletableEntity, TId>
     where TSoftDeletableEntity : SoftDeletableEntity<TId>
 {
     public SoftDeletableEfRepository(DatabaseContext context) : base(context)

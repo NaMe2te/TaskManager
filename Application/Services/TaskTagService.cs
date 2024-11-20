@@ -8,7 +8,7 @@ namespace Application.Services;
 
 public class TaskTagService : BaseCrudService<TaskTag, TaskTagDto, int>
 {
-    public TaskTagService(IBaseRepository<TaskTag> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+    public TaskTagService(IBaseRepository<TaskTag, int> repository, IMapper mapper, IUnitOfWork unitOfWork) 
         : base(repository, mapper, unitOfWork)
     { }
 }

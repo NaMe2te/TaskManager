@@ -4,7 +4,7 @@ using Dal.Repositories.BaseRepositories;
 
 namespace Dal.Repositories;
 
-public class CommitHistoryEfRepository : BaseEfRepository<CommitHistory>
+public class CommitHistoryEfRepository : BaseEfRepository<CommitHistory, long>
 {
     public CommitHistoryEfRepository(DatabaseContext context) : base(context)
     { }

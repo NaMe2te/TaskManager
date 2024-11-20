@@ -8,7 +8,7 @@ namespace Application.Services;
 
 public class TaskHistoryService : BaseCrudService<TaskHistory, TaskHistoryDto, int>
 {
-    public TaskHistoryService(IBaseRepository<TaskHistory> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+    public TaskHistoryService(IBaseRepository<TaskHistory, int> repository, IMapper mapper, IUnitOfWork unitOfWork) 
         : base(repository, mapper, unitOfWork)
     { }
 }

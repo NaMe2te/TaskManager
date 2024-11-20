@@ -1,9 +1,10 @@
 using System.Linq.Expressions;
+using Dal.Entities.BaseEntities;
 using Dal.Models;
 
 namespace Dal.Repositories.BaseRepositories;
 
-public interface IBaseRepository<TEntity> where TEntity : class
+public interface IBaseRepository<TEntity, TId> where TEntity : BaseEntity<TId>
 {
     Task<TEntity> AddAsync(TEntity model);
     TEntity Add(TEntity model);

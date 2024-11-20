@@ -4,7 +4,7 @@ using Dal.Repositories.BaseRepositories;
 
 namespace Dal.Repositories;
 
-public class CommentEfRepository : BaseEfRepository<Comment>
+public class CommentEfRepository : BaseEfRepository<Comment, long>
 {
     public CommentEfRepository(DatabaseContext context) : base(context)
     { }

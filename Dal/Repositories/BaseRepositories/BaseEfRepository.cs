@@ -1,11 +1,12 @@
 using System.Linq.Expressions;
 using Dal.DBContexts;
+using Dal.Entities.BaseEntities;
 using Dal.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dal.Repositories.BaseRepositories;
 
-public class BaseEfRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+public class BaseEfRepository<TEntity, TId> : IBaseRepository<TEntity, TId> where TEntity : BaseEntity<TId>
 {
     protected readonly DatabaseContext _context;
 
@@ -16,18 +17,22 @@ public class BaseEfRepository<TEntity> : IBaseRepository<TEntity> where TEntity 
 
     public async Task<TEntity> AddAsync(TEntity model)
     {
+        model.DateCreated = model.LastUpdated = DateTime.Now;
         var addedEntity = await _context.Set<TEntity>().AddAsync(model).ConfigureAwait(false);
         return addedEntity.Entity;
     }
 
     public TEntity Add(TEntity model)
     {
+        model.DateCreated = model.LastUpdated = DateTime.Now;
         return _context.Set<TEntity>().Add(model).Entity;
     }
 
     public Task<TEntity> UpdateAsync(TEntity model)
     {
-        return Task.FromResult(_context.Set<TEntity>().Update(model).Entity);
+        var entity = _context.Set<TEntity>().Update(model).Entity;
+        entity.LastUpdated = DateTime.Now;
+        return Task.FromResult(entity);
     }
 
     public TEntity Update(TEntity model)

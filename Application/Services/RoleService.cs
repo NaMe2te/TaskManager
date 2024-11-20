@@ -8,7 +8,7 @@ namespace Application.Services;
 
 public class RoleService : BaseCrudService<Role, RoleDto, int>
 {
-    public RoleService(IBaseRepository<Role> repository, IMapper mapper, IUnitOfWork unitOfWork)
+    public RoleService(IBaseRepository<Role, int> repository, IMapper mapper, IUnitOfWork unitOfWork)
         : base(repository, mapper, unitOfWork)
     { }
 }

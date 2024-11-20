@@ -13,7 +13,10 @@ public class CommitHistoryEfConfig : BaseEntityConfig<CommitHistory, long>
         base.Configure(builder);
 
         builder.Property(ch => ch.CommitHash).IsRequired();
-        builder.Property(ch => ch.CommitDate).ValueGeneratedOnAdd().IsRequired();
+        builder.Property(ch => ch.CommitDate).HasConversion(
+            v => v.ToUniversalTime(), // Convert to UTC before saving
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc) // Convert back to UTC when reading
+        );
         builder.Property(ch => ch.CommitNumber).IsRequired();
         builder.Property(ch => ch.AuthorId).IsRequired();
         builder.Property(ch => ch.TaskId).IsRequired();
