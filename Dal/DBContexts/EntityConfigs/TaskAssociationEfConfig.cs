@@ -18,7 +18,7 @@ public class TaskAssociationEfConfig : BaseEntityConfig<TaskAssociation, long>
             .OnDelete(DeleteBehavior.Restrict);
         
         builder.HasOne(ta => ta.AssociatedTask)
-            .WithMany(t => t.AssociatedTasks)
+            .WithMany()
             .HasForeignKey(ta => ta.AssociatedTaskId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);

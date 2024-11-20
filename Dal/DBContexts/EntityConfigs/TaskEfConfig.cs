@@ -38,14 +38,6 @@ public class TaskEfConfig : BaseEntityConfig<Entities.Task, long>
             .HasForeignKey(ta => ta.ParentTaskId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
-            
-
-        // не сможет удалить задачу, если у нее есть подзадачи
-        builder.HasMany(ta => ta.AssociatedTasks)
-            .WithOne(at => at.AssociatedTask)
-            .HasForeignKey(ta => ta.AssociatedTaskId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(t => t.TaskCollaborators)
             .WithOne(tc => tc.Task)
