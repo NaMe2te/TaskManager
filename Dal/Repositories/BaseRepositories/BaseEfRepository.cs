@@ -9,10 +9,12 @@ namespace Dal.Repositories.BaseRepositories;
 public class BaseEfRepository<TEntity, TId> : IBaseRepository<TEntity, TId> where TEntity : BaseEntity<TId>
 {
     protected readonly DatabaseContext _context;
+    protected readonly string[] _allNavigationFields;
 
     public BaseEfRepository(DatabaseContext context)
     {
         _context = context;
+        _allNavigationFields = _context.Set<TEntity>().EntityType.GetNavigations().Select(x => x.Name).ToArray();
     }
 
     public async Task<TEntity> AddAsync(TEntity model)
@@ -87,6 +89,11 @@ public class BaseEfRepository<TEntity, TId> : IBaseRepository<TEntity, TId> wher
         
         return await query.ToListAsync();
     }
+    
+    /*public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null)
+    {
+        return await GetAllAsync(predicate, paginationParams, _allNavigationFields);
+    }*/
 
     public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes)
     {
@@ -105,6 +112,16 @@ public class BaseEfRepository<TEntity, TId> : IBaseRepository<TEntity, TId> wher
         }
 
         return query.ToList();
+    }
+    
+    /*public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null)
+    {
+        return GetAll(predicate, paginationParams, _allNavigationFields);
+    }*/
+
+    public string[] GetNavigationFields()
+    {
+        return _allNavigationFields;
     }
     
     private static IQueryable<TEntity> ApplyIncludes(IQueryable<TEntity> query, IEnumerable<string> includes)

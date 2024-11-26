@@ -23,4 +23,6 @@ public interface IBaseRepository<TEntity, TId> where TEntity : BaseEntity<TId>
     
     Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes);
     IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes);
+
+    string[] GetNavigationFields();
 }

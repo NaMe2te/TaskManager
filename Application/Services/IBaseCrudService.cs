@@ -12,5 +12,5 @@ public interface IBaseCrudService<TEntity, TDto, in TId>
     Task<TDto> Update(TDto dto);
     Task<TDto> Remove(TDto dto);
     Task<TDto> GetById(TId id);
-    Task<IEnumerable<TDto>> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes);
+    Task<IEnumerable<TDto>> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null);
 }

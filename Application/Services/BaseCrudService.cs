@@ -48,13 +48,25 @@ public class BaseCrudService<TEntity, TDto, TId> : IBaseCrudService<TEntity, TDt
 
     public async Task<TDto> GetById(TId id)
     {
-        var entity = await _repository.GetAsync(x => x.Id!.Equals(id));
+        var entity = await _repository.GetAsync(x => x.Id!.Equals(id), _repository.GetNavigationFields());
         return _mapper.Map<TDto>(entity);
     }
 
-    public async Task<IEnumerable<TDto>> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes)
+    public async Task<IEnumerable<TDto>> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null)
     {
-        var entities = await _repository.GetAllAsync(predicate, paginationParams, includes);
+        var entities = await _repository.GetAllAsync(predicate, paginationParams, _repository.GetNavigationFields());
         return _mapper.Map<IEnumerable<TDto>>(entities);
     }
+    
+    /// <summary>
+    /// Получение сущности, все навигационные поля которой заполнены
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <param name="paginationParams"></param>
+    /// <returns></returns>
+    /*public async Task<IEnumerable<TDto>> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null)
+    {
+        var entities = await _repository.GetAllAsync(predicate, paginationParams);
+        return _mapper.Map<IEnumerable<TDto>>(entities);
+    }*/
 }
