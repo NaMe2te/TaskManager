@@ -1,6 +1,9 @@
 using Application.AutoMapper;
 using Application.Dtos;
+using Application.Dtos.Task;
 using Application.Services;
+using Application.Services.OrganizationServices;
+using Application.Services.TaskServices;
 using Dal.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Task = Dal.Entities.Task;
@@ -14,7 +17,7 @@ public static class Bootstrapper
         services.AddAutoMapper(typeof(MappingProfile));
         
         services.AddScoped<IBaseCrudService<Comment, CommentDto, long>, CommentService>();
-        services.AddScoped<IBaseCrudService<Organization, OrganizationDto, long>, OrganizationService>();
+        services.AddScoped<IOrganizationService, OrganizationService>();
         services.AddScoped<IBaseCrudService<ProjectAccess, ProjectAccessDto, long>, ProjectAccessService>();
         services.AddScoped<IBaseCrudService<Project, ProjectDto, long>, ProjectService>();
         services.AddScoped<IBaseCrudService<Role, RoleDto, int>, RoleService>();
@@ -22,7 +25,7 @@ public static class Bootstrapper
         services.AddScoped<IBaseCrudService<TaskAssociation, TaskAssociationDto, long>, TaskAssociationService>();
         services.AddScoped<IBaseCrudService<TaskCollaborator, TaskCollaboratorDto, long>, TaskCollaboratorService>();
         services.AddScoped<IBaseCrudService<TaskHistory, TaskHistoryDto, int>, TaskHistoryService>();
-        services.AddScoped<IBaseCrudService<Task, TaskDto, long>, TaskService>();
+        services.AddScoped<ITaskService, TaskService>();
         services.AddScoped<IBaseCrudService<TaskTag, TaskTagDto, int>, TaskTagService>();
         services.AddScoped<IBaseCrudService<User, UserDto, long>, UserService>();
         

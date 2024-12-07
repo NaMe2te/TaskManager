@@ -1,3 +1,5 @@
+using Application.Dtos.Task;
+
 namespace Application.Dtos;
 
 public class ProjectDto

@@ -15,4 +15,5 @@ public class Organization : BaseEntity<long>
     public string Name { get; set; }
     
     public ICollection<Project> Projects { get; set; }
+    public ICollection<Status> Statuses { get; set; }
 }

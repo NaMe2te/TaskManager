@@ -1,4 +1,5 @@
 using Application.Dtos;
+using Application.Dtos.Task;
 using AutoMapper;
 using Dal.Entities;
 using Task = Dal.Entities.Task;
@@ -38,7 +39,8 @@ public class MappingProfile : Profile
     {
         CreateMap<Organization, OrganizationDto>()
             .ForMember(dest => dest.Projects,
-                opt => opt.MapFrom(src => src.Projects));
+                opt => opt.MapFrom(src => src.Projects))
+            .ForMember(dest => dest.Statuses, opt => opt.MapFrom(src => src.Statuses));
         CreateMap<OrganizationDto, Organization>()
             .ForMember(dest => dest.Projects, opt => opt.Ignore());
     }
@@ -55,8 +57,6 @@ public class MappingProfile : Profile
     private void CreateTaskMap()
     {
         CreateMap<Task, TaskDto>()
-            /*.ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
-            .ForMember(dest => dest.Collaborators, opt => opt.MapFrom(src => src.TaskCollaborators))*/
             .ForMember(dest => dest.ProjectName, opt => opt.MapFrom(src => src.Project.Name));
 
         CreateMap<TaskDto, Task>()
@@ -65,6 +65,12 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Status, opt => opt.Ignore())
             .ForMember(dest => dest.Comments, opt => opt.Ignore())
             .ForMember(dest => dest.TaskCollaborators, opt => opt.Ignore());
+
+        CreateMap<Task, TaskDetailsDto>()
+            .IncludeBase<Task, TaskDto>()
+            .ForMember(dest => dest.Collaborators, opt => opt.MapFrom(src => src.TaskCollaborators))
+            .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
+
     }
 
     private void CreateTaskCollaboratorsMap()

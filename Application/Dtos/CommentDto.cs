@@ -7,8 +7,8 @@ public class CommentDto
     public string Text { get; set; }
     public long TaskId { get; set; }
     
-    public string TaskName { get; set; }
+    public string? TaskName { get; set; }
     public long CommentedBy { get; set; }
     
-    public string CommenterName { get; set; }
+    public string? CommenterName { get; set; }
 }
