@@ -1,3 +1,7 @@
 namespace Application.Dtos;
 
-public record StatusTransitionDto(string FromStatusName, string ToStatusName);
+public class StatusTransitionDto
+{
+    public string FromStatusName { get; set; }
+    public string ToStatusName { get; set; }
+}

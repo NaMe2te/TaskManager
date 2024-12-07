@@ -27,6 +27,7 @@ public static class Bootstrapper
         services.AddScoped<IBaseRepository<TaskHistory, int>, TaskHistoryEfRepository>();
         services.AddScoped<IBaseRepository<TaskTag, int>, TaskTagEfRepository>();
         services.AddScoped<IBaseRepository<User, long>, UserEfRepository>();
+        services.AddScoped<IBaseRepository<StatusTransition, long>, StatusTransitionRepository>();
 
         return services;
     }

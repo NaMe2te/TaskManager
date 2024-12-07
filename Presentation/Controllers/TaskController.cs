@@ -1,5 +1,5 @@
 using Application.Dtos.Task;
-using Application.Services.TaskServices;
+using Application.Services.TaskService;
 using Microsoft.AspNetCore.Mvc;
 using Task = Dal.Entities.Task;
 
@@ -15,5 +15,18 @@ public class TaskController : BaseController<Task, TaskDto, long>
     public async Task<ActionResult<TaskDto>> GetTaskDetails([FromQuery] long taskId)
     {
         return Ok(await ((ITaskService)_service).GetDetails(taskId));
+    }
+    
+    
+    [HttpGet(nameof(GetTasksCreatedByUserId))]
+    public async Task<IEnumerable<TaskDto>> GetTasksCreatedByUserId(long userId)
+    {
+        return await ((ITaskService) _service).GetTasksCreatedByUserId(userId);
+    }
+    
+    [HttpGet(nameof(GetTGetTasksAssignedToUserId))]
+    public async Task<IEnumerable<TaskDto>> GetTGetTasksAssignedToUserId([FromBody] long userId)
+    {
+        return await ((ITaskService) _service).GetTasksAssignedToUserId(userId);
     }
 }

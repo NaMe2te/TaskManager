@@ -9,7 +9,7 @@ namespace Application.Services;
 
 public class StatusTransitionService : BaseCrudService<StatusTransition, StatusTransitionDto, long>
 {
-    protected StatusTransitionService(IBaseRepository<StatusTransition, long> repository, IMapper mapper, IUnitOfWork unitOfWork) 
+    public StatusTransitionService(IBaseRepository<StatusTransition, long> repository, IMapper mapper, IUnitOfWork unitOfWork) 
         : base(repository, mapper, unitOfWork) { }
 
     /*public async Task UploadPipeline(IEnumerable<>)

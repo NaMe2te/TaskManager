@@ -1,9 +1,8 @@
 using Application.AutoMapper;
 using Application.Dtos;
-using Application.Dtos.Task;
 using Application.Services;
 using Application.Services.OrganizationServices;
-using Application.Services.TaskServices;
+using Application.Services.TaskService;
 using Dal.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Task = Dal.Entities.Task;
