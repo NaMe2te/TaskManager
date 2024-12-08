@@ -2,6 +2,7 @@ using Application;
 using Dal;
 using Dal.DBContexts;
 using Microsoft.EntityFrameworkCore;
+using Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddApplication();
 builder.Services.AddRepositories();
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddUnitOfWork();
+builder.Services.AddCustomMiddlewares();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -32,5 +34,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+
+app.UseCustomMiddlewares();
 
 app.Run();
