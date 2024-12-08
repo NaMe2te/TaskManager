@@ -29,5 +29,17 @@ public class OrganizationEfConfig : BaseEntityConfig<Organization, long>
             .WithOne(x => x.Organization)
             .HasForeignKey(x => x.OrganizationId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(o => o.Users)
+            .WithOne(u => u.Organization)
+            .HasForeignKey(u => u.OrganizationId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(o => o.Roles)
+            .WithOne(r => r.Organization)
+            .HasForeignKey(r => r.OrganizationId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

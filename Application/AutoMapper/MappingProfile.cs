@@ -43,7 +43,11 @@ public class MappingProfile : Profile
                 opt => opt.MapFrom(src => src.Projects))
             .ForMember(dest => dest.Statuses, opt => opt.MapFrom(src => src.Statuses));
         CreateMap<OrganizationDto, Organization>()
-            .ForMember(dest => dest.Projects, opt => opt.Ignore());
+            .ForMember(dest => dest.Projects, opt => opt.Ignore())
+            .ForMember(dest => dest.Statuses, opt => opt.Ignore())
+            .ForMember(dest => dest.StatusTransitions, opt => opt.Ignore())
+            .ForMember(dest => dest.Users, opt => opt.Ignore())
+            .ForMember(dest => dest.Roles, opt => opt.Ignore());
     }
 
     private void CreateProjectMap()

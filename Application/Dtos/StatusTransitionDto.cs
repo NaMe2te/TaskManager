@@ -2,6 +2,8 @@ namespace Application.Dtos;
 
 public class StatusTransitionDto
 {
+    public long Id { get; set; }
+    
     public long OrganizationId { get; set; }
     
     public long FromId { get; set; }

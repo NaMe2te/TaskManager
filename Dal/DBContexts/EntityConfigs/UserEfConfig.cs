@@ -47,5 +47,11 @@ public class UserEfConfig : BaseEntityConfig<User, long>
             .HasForeignKey(th => th.UserId)
             .IsRequired()
             .OnDelete(DeleteBehavior.NoAction);
+        
+        builder.HasOne(u => u.Organization)
+            .WithMany(th => th.Users)
+            .HasForeignKey(th => th.OrganizationId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

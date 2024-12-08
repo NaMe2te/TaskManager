@@ -29,4 +29,16 @@ public class OrganisationController : BaseController<Organization, OrganizationD
     {
         return Ok(await ((IOrganizationService)_service).GetAllStatusTransition(organization));
     }
+    
+    [HttpGet(nameof(Roles))]
+    public async Task<ActionResult<IEnumerable<TaskDto>>> Roles([FromQuery] long organization)
+    {
+        return Ok(await ((IOrganizationService)_service).GetAllRoles(organization));
+    }
+    
+    [HttpGet(nameof(Users))]
+    public async Task<ActionResult<IEnumerable<TaskDto>>> Users([FromQuery] long organization)
+    {
+        return Ok(await ((IOrganizationService)_service).GetAllUsers(organization));
+    }
 }

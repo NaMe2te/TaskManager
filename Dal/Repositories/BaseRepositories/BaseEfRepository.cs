@@ -54,7 +54,8 @@ public class BaseEfRepository<TEntity, TId> : IBaseRepository<TEntity, TId> wher
 
     public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, params string[] includes)
     {
-        return await ApplyIncludes(_context.Set<TEntity>(), includes).FirstAsync(predicate);
+        var a = ApplyIncludes(_context.Set<TEntity>(), includes);
+        return await a.FirstAsync(predicate);
     }
 
     public TEntity Get(Expression<Func<TEntity, bool>> predicate, params string[] includes)

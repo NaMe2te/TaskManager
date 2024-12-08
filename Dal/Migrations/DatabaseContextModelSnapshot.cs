@@ -203,7 +203,12 @@ namespace Dal.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<long>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
 
                     b.ToTable("Roles");
                 });
@@ -478,10 +483,15 @@ namespace Dal.Migrations
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<long>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
 
                     b.HasIndex("RoleId");
 
@@ -554,6 +564,17 @@ namespace Dal.Migrations
                     b.Navigation("Project");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Dal.Entities.Role", b =>
+                {
+                    b.HasOne("Dal.Entities.Organization", "Organization")
+                        .WithMany("Roles")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("Dal.Entities.Status", b =>
@@ -702,11 +723,19 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("Dal.Entities.User", b =>
                 {
+                    b.HasOne("Dal.Entities.Organization", "Organization")
+                        .WithMany("Users")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Dal.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Organization");
 
                     b.Navigation("Role");
                 });
@@ -715,9 +744,13 @@ namespace Dal.Migrations
                 {
                     b.Navigation("Projects");
 
+                    b.Navigation("Roles");
+
                     b.Navigation("StatusTransitions");
 
                     b.Navigation("Statuses");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Dal.Entities.Project", b =>

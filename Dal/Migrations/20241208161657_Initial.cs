@@ -28,21 +28,6 @@ namespace Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TaskTags",
                 columns: table => new
                 {
@@ -73,6 +58,28 @@ namespace Dal.Migrations
                     table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Projects_Organizations_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    OrganizationId = table.Column<long>(type: "bigint", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Roles_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
                         principalColumn: "Id",
@@ -111,6 +118,7 @@ namespace Dal.Migrations
                     FullName = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     RoleId = table.Column<int>(type: "integer", nullable: false),
+                    OrganizationId = table.Column<long>(type: "bigint", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -119,6 +127,12 @@ namespace Dal.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Organizations_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
@@ -133,6 +147,7 @@ namespace Dal.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrganizationId = table.Column<long>(type: "bigint", nullable: false),
                     FromId = table.Column<int>(type: "integer", nullable: false),
                     ToId = table.Column<int>(type: "integer", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -141,6 +156,12 @@ namespace Dal.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StatusTransition", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StatusTransition_Organizations_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StatusTransition_Statuses_FromId",
                         column: x => x.FromId,
@@ -418,6 +439,11 @@ namespace Dal.Migrations
                 column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Roles_OrganizationId",
+                table: "Roles",
+                column: "OrganizationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Statuses_OrganizationId",
                 table: "Statuses",
                 column: "OrganizationId");
@@ -426,6 +452,11 @@ namespace Dal.Migrations
                 name: "IX_StatusTransition_FromId",
                 table: "StatusTransition",
                 column: "FromId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StatusTransition_OrganizationId",
+                table: "StatusTransition",
+                column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StatusTransition_ToId",
@@ -493,6 +524,11 @@ namespace Dal.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_OrganizationId",
+                table: "Users",
+                column: "OrganizationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
@@ -538,10 +574,10 @@ namespace Dal.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Organizations");
+                name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Organizations");
         }
     }
 }

@@ -9,4 +9,6 @@ public interface IOrganizationService : IBaseCrudService<Organization, Organizat
     Task<IEnumerable<TaskDto>> GetAllTasks(long organizationId);
     Task<IEnumerable<StatusDto>> GetAllStatuses(long organizationId);
     Task<IEnumerable<StatusTransitionDto>> GetAllStatusTransition(long organizationId);
+    Task<IEnumerable<RoleDto>> GetAllRoles(long organizationId);
+    Task<IEnumerable<UserDto>> GetAllUsers(long organizationId);
 }

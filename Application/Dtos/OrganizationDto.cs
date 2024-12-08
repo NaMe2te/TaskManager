@@ -7,4 +7,6 @@ public class OrganizationDto
     public List<ProjectDto> Projects { get; set; } = new();
     public List<StatusDto> Statuses { get; set; } = new();
     public List<StatusTransitionDto> StatusTransitions { get; set; } = new();
+    public List<RoleDto> Roles { get; set; } = new();
+    public List<UserDto> Users { get; set; } = new();
 }
