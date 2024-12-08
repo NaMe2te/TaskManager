@@ -7,9 +7,9 @@ public class TaskDto
     public string Description { get; set; }
     public DateTime? DueDate { get; set; }
     public long CreatedBy { get; set; }
-    public string CreatorName { get; set; } = string.Empty;
+    public string? CreatorName { get; set; }
     public long ProjectId { get; set; }
-    public string ProjectName { get; set; } = string.Empty;
+    public string? ProjectName { get; set; }
     public long? AssignedTo { get; set; }
     public string? AssigneeName { get; set; }
     public int? StatusId { get; set; }

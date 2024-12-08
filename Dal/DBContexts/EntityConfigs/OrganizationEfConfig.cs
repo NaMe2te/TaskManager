@@ -23,6 +23,11 @@ public class OrganizationEfConfig : BaseEntityConfig<Organization, long>
         builder.HasMany(x => x.Statuses)
             .WithOne(x => x.Organization)
             .HasForeignKey(x => x.OrganizationId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(x => x.StatusTransitions)
+            .WithOne(x => x.Organization)
+            .HasForeignKey(x => x.OrganizationId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

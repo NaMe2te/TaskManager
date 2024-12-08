@@ -20,5 +20,10 @@ public class StatusTransitionEfConfig : BaseEntityConfig<StatusTransition, long>
             .WithMany()
             .HasForeignKey(x => x.FromId)
             .OnDelete(DeleteBehavior.NoAction);
+        
+        builder.HasOne(x => x.Organization)
+            .WithMany(x => x.StatusTransitions)
+            .HasForeignKey(x => x.OrganizationId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

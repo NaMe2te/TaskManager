@@ -4,11 +4,15 @@ namespace Dal.Entities;
 
 public class StatusTransition : BaseEntity<long>
 {
-    public StatusTransition(int fromId, int toId)
+    public StatusTransition(long organizationId, int fromId, int toId)
     {
+        OrganizationId = organizationId;
         FromId = fromId;
         ToId = toId;
     }
+    
+    public long OrganizationId { get; set; }
+    public Organization Organization { get; set; }
 
     public int FromId { get; set; }
     public Status From { get; set; }

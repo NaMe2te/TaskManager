@@ -1,8 +1,6 @@
 using Application.Dtos;
 using Application.Dtos.Task;
-using Application.Services;
 using Application.Services.OrganizationServices;
-using Application.Services.TaskServices;
 using Dal.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,5 +16,17 @@ public class OrganisationController : BaseController<Organization, OrganizationD
     public async Task<ActionResult<IEnumerable<TaskDto>>> Tasks([FromQuery] long organization)
     {
         return Ok(await ((IOrganizationService)_service).GetAllTasks(organization));
+    }
+
+    [HttpGet(nameof(Statuses))]
+    public async Task<ActionResult<IEnumerable<TaskDto>>> Statuses([FromQuery] long organization)
+    {
+        return Ok(await ((IOrganizationService)_service).GetAllStatuses(organization));
+    }
+    
+    [HttpGet(nameof(StatusTransition))]
+    public async Task<ActionResult<IEnumerable<TaskDto>>> StatusTransition([FromQuery] long organization)
+    {
+        return Ok(await ((IOrganizationService)_service).GetAllStatusTransition(organization));
     }
 }

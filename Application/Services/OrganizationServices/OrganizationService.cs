@@ -35,4 +35,16 @@ public class OrganizationService : BaseCrudService<Organization, OrganizationDto
 
          return _mapper.Map<IEnumerable<Task>, IEnumerable<TaskDto>>(tasksByOrganization);
     }
+
+    public async Task<IEnumerable<StatusDto>> GetAllStatuses(long organizationId)
+    {
+        var organization = await _repository.GetAsync(x => x.Id == organizationId, "Statuses");
+        return _mapper.Map<IEnumerable<Status>, IEnumerable<StatusDto>>(organization.Statuses);
+    }
+
+    public async Task<IEnumerable<StatusTransitionDto>> GetAllStatusTransition(long organizationId)
+    {
+        var organization = await _repository.GetAsync(x => x.Id == organizationId, "StatusTransitions");
+        return _mapper.Map<IEnumerable<StatusTransition>, IEnumerable<StatusTransitionDto>>(organization.StatusTransitions);
+    }
 }

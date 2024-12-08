@@ -18,6 +18,7 @@ public class MappingProfile : Profile
         CreateProjectAccessMap();
         CreateRoleMap();
         CreateStatusMap();
+        CreateStatusTransition();
         CreateTaskAssociationMap();
         CreateTaskHistoryMap();
         CreateTaskTagMap();
@@ -80,7 +81,6 @@ public class MappingProfile : Profile
                 opt => opt.MapFrom(src => src.Collaborator.FullName));
 
         CreateMap<TaskCollaboratorDto, TaskCollaborator>();
-
     }
 
     private void CreateProjectAccessMap()
@@ -124,11 +124,19 @@ public class MappingProfile : Profile
     {
         CreateMap<Status, StatusDto>().ReverseMap();
     }
+
+    private void CreateStatusTransition()
+    {
+        CreateMap<StatusTransition, StatusTransitionDto>()
+            .ForMember(dest => dest.FromStatusName, opt => opt.MapFrom(src => src.From.Name))
+            .ForMember(dest => dest.ToStatusName, opt => opt.MapFrom(src => src.To.Name));
+
+        CreateMap<StatusTransitionDto, StatusTransition>();
+    }
     
     private void CreateTaskTagMap()
     {
         CreateMap<TaskTag, TaskTagDto>().ReverseMap();
-
     }
 
     private void CreateUserMap()
