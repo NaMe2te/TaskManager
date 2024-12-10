@@ -1,17 +1,19 @@
-﻿using Dal.Entities.BaseEntities;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Dal.Entities;
 
-public class Role : BaseEntity<int>
+public class Role : IdentityRole<long>
 {
     public Role(string name, long organizationId)
+        : base(name)
     {
-        Name = name;
         OrganizationId = organizationId;
     }
-
-    public string Name { get; set; }
+    
     
     public long OrganizationId { get; set; }
     public Organization Organization { get; set; }
+    
+    public DateTime DateCreated { get; set; }
+    public DateTime LastUpdated { get; set; }
 }

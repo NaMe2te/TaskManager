@@ -1,30 +1,33 @@
-﻿using Dal.Entities.BaseEntities;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Dal.Entities;
 
-public class User : SoftDeletableEntity<long>
+public class User : IdentityUser<long>
 {
-    public User(string fullName, string email, int roleId, long organizationId)
+    public User(string fullName, string email, long organizationId)
+        : base(fullName)
     {
-        FullName = fullName;
         Email = email;
-        RoleId = roleId;
         OrganizationId = organizationId;
         CreatedTasks = new List<Task>();
         AssignedTasks = new List<Task>();
         TaskCollaborators = new List<TaskCollaborator>();
         Comments = new List<Comment>();
         TaskHistories = new List<TaskHistory>();
+
+        IsDeleted = false;
     }
     
-    public string FullName { get; set; }
-    public string Email { get; set; }
-
-    public int RoleId { get; set; }
-    public Role Role { get; set; }
+    protected User() { }
     
     public long OrganizationId { get; set; }
     public Organization Organization { get; set; }
+    
+    public DateTime? DateDeleted { get; set; }
+    public bool IsDeleted { get; set; }
+    
+    public DateTime DateCreated { get; set; }
+    public DateTime LastUpdated { get; set; }
     
     public ICollection<Task> CreatedTasks { get; set; }
     public ICollection<Task> AssignedTasks { get; set; }

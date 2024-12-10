@@ -29,7 +29,7 @@ public class MappingProfile : Profile
     {
         CreateMap<Comment, CommentDto>()
             .ForMember(dest => dest.TaskName, opt => opt.MapFrom(src => src.Task.Title))
-            .ForMember(dest => dest.CommenterName, opt => opt.MapFrom(src => src.Commenter.FullName));
+            .ForMember(dest => dest.CommenterName, opt => opt.MapFrom(src => src.Commenter.UserName));
         
         CreateMap<CommentDto, Comment>()
             .ForMember(dest => dest.Task, opt => opt.Ignore())
@@ -82,7 +82,7 @@ public class MappingProfile : Profile
     {
         CreateMap<TaskCollaborator, TaskCollaboratorDto>()
             .ForMember(dest => dest.CollaboratorName, 
-                opt => opt.MapFrom(src => src.Collaborator.FullName));
+                opt => opt.MapFrom(src => src.Collaborator.UserName));
 
         CreateMap<TaskCollaboratorDto, TaskCollaborator>();
     }
@@ -108,15 +108,15 @@ public class MappingProfile : Profile
     private void CreateTaskHistoryMap()
     {
         CreateMap<TaskHistory, TaskHistoryDto>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))  // Явное указание на Id
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))  // Преобразуем UserId
-            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FullName))  // Преобразуем имя пользователя из сущности User
-            .ForMember(dest => dest.TaskId, opt => opt.MapFrom(src => src.TaskId))  // Преобразуем TaskId
-            .ForMember(dest => dest.OldStatusId, opt => opt.MapFrom(src => src.OldStatusId))  // Преобразуем OldStatusId
-            .ForMember(dest => dest.OldStatusName, opt => opt.MapFrom(src => src.OldStatus.Name))  // Преобразуем OldStatusName из связанной сущности Status
-            .ForMember(dest => dest.NewStatusId, opt => opt.MapFrom(src => src.NewStatusId))  // Преобразуем NewStatusId
-            .ForMember(dest => dest.NewStatusName, opt => opt.MapFrom(src => src.NewStatus.Name))  // Преобразуем NewStatusName из связанной сущности Status
-            .ForMember(dest => dest.DateUpdated, opt => opt.MapFrom(src => src.LastUpdated));  // Преобразуем DateUpdated
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
+            .ForMember(dest => dest.TaskId, opt => opt.MapFrom(src => src.TaskId))
+            .ForMember(dest => dest.OldStatusId, opt => opt.MapFrom(src => src.OldStatusId))
+            .ForMember(dest => dest.OldStatusName, opt => opt.MapFrom(src => src.OldStatus.Name))
+            .ForMember(dest => dest.NewStatusId, opt => opt.MapFrom(src => src.NewStatusId))
+            .ForMember(dest => dest.NewStatusName, opt => opt.MapFrom(src => src.NewStatus.Name))
+            .ForMember(dest => dest.DateUpdated, opt => opt.MapFrom(src => src.LastUpdated));
     }
 
     private void CreateRoleMap()
@@ -145,6 +145,9 @@ public class MappingProfile : Profile
 
     private void CreateUserMap()
     {
-        CreateMap<User, UserDto>().ReverseMap();
+        CreateMap<User, UserDto>()
+            .ForMember(dest => dest.RoleName, opt =>
+                opt.MapFrom((src, dest, destMember, context) => context.Items["Role"]))
+            .ReverseMap();
     }
 }

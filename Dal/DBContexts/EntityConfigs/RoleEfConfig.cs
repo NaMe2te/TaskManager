@@ -1,14 +1,26 @@
-﻿using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
-using Dal.Entities;
+﻿using Dal.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class RoleEfConfig : BaseEntityConfig<Role, int>
+public class RoleEfConfig : IEntityTypeConfiguration<Role>
 {
-    public override void Configure(EntityTypeBuilder<Role> builder)
+    public void Configure(EntityTypeBuilder<Role> builder)
     {
-        base.Configure(builder);
+        builder.HasKey(b => b.Id);
+        builder.Property(x => x.Id).UseIdentityColumn();
+        
+        builder.Property(x => x.DateCreated)
+            .HasConversion(
+                v => v.ToUniversalTime(),
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+            );
+        builder.Property(x => x.LastUpdated)
+            .HasConversion(
+                v => v.ToUniversalTime(),
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+            );
         
         builder.Property(r => r.Name).HasMaxLength(50).IsRequired();
     }

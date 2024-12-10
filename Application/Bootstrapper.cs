@@ -19,7 +19,6 @@ public static class Bootstrapper
         services.AddScoped<IOrganizationService, OrganizationService>();
         services.AddScoped<IBaseCrudService<ProjectAccess, ProjectAccessDto, long>, ProjectAccessService>();
         services.AddScoped<IBaseCrudService<Project, ProjectDto, long>, ProjectService>();
-        services.AddScoped<IBaseCrudService<Role, RoleDto, int>, RoleService>();
         services.AddScoped<IBaseCrudService<Status, StatusDto, int>, StatusService>();
         services.AddScoped<IBaseCrudService<TaskAssociation, TaskAssociationDto, long>, TaskAssociationService>();
         services.AddScoped<IBaseCrudService<TaskCollaborator, TaskCollaboratorDto, long>, TaskCollaboratorService>();
@@ -27,7 +26,8 @@ public static class Bootstrapper
         services.AddScoped<IBaseCrudService<StatusTransition, StatusTransitionDto, long>, StatusTransitionService>();
         services.AddScoped<ITaskService, TaskService>();
         services.AddScoped<IBaseCrudService<TaskTag, TaskTagDto, int>, TaskTagService>();
-        services.AddScoped<IBaseCrudService<User, UserDto, long>, UserService>();
+        services.AddScoped<IBaseCrudService<Role, RoleDto>, RoleService>();
+        services.AddScoped<IBaseCrudService<User, UserDto>, UserService>();
         
         return services;
     }

@@ -6,17 +6,26 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dal.DBContexts.EntityConfigs;
 
-public class UserEfConfig : BaseEntityConfig<User, long>
+public class UserEfConfig : IEntityTypeConfiguration<User>
 {
-    public override void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
-        base.Configure(builder);
+        builder.HasKey(b => b.Id);
+        builder.Property(x => x.Id).UseIdentityColumn();
+
+        builder.Property(x => x.DateCreated)
+            .HasConversion(
+                v => v.ToUniversalTime(),
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+            );
+        builder.Property(x => x.LastUpdated)
+            .HasConversion(
+                v => v.ToUniversalTime(),
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+            );
         
-        builder.HasOne(u => u.Role)
-            .WithMany()
-            .HasForeignKey(u => u.RoleId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.Property(sd => sd.IsDeleted).IsRequired();
+        builder.Property(sd => sd.DateDeleted).IsRequired(false);
         
         builder.HasMany(u => u.CreatedTasks)
             .WithOne(t => t.Creator)
