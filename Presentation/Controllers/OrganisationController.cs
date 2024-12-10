@@ -19,25 +19,25 @@ public class OrganisationController : BaseController<Organization, OrganizationD
     }
 
     [HttpGet(nameof(Statuses))]
-    public async Task<ActionResult<IEnumerable<TaskDto>>> Statuses([FromQuery] long organization)
+    public async Task<ActionResult<IEnumerable<StatusDto>>> Statuses([FromQuery] long organization)
     {
         return Ok(await ((IOrganizationService)_service).GetAllStatuses(organization));
     }
     
     [HttpGet(nameof(StatusTransition))]
-    public async Task<ActionResult<IEnumerable<TaskDto>>> StatusTransition([FromQuery] long organization)
+    public async Task<ActionResult<IEnumerable<StatusTransitionDto>>> StatusTransition([FromQuery] long organization)
     {
         return Ok(await ((IOrganizationService)_service).GetAllStatusTransition(organization));
     }
     
     [HttpGet(nameof(Roles))]
-    public async Task<ActionResult<IEnumerable<TaskDto>>> Roles([FromQuery] long organization)
+    public async Task<ActionResult<IEnumerable<RoleDto>>> Roles([FromQuery] long organization)
     {
         return Ok(await ((IOrganizationService)_service).GetAllRoles(organization));
     }
     
     [HttpGet(nameof(Users))]
-    public async Task<ActionResult<IEnumerable<TaskDto>>> Users([FromQuery] long organization)
+    public async Task<ActionResult<IEnumerable<UserDto>>> Users([FromQuery] long organization)
     {
         return Ok(await ((IOrganizationService)_service).GetAllUsers(organization));
     }
