@@ -16,7 +16,6 @@ public class Task : BaseEntity<long>
         AssociatedTasks = new List<TaskAssociation>();
         TaskCollaborators = new List<TaskCollaborator>();
         Comments = new List<Comment>();
-        TaskHistories = new List<TaskHistory>();
         CommitHistories = new List<CommitHistory>();
     }
     
@@ -42,6 +41,5 @@ public class Task : BaseEntity<long>
     public ICollection<TaskAssociation> AssociatedTasks { get; set; }
     public ICollection<TaskCollaborator> TaskCollaborators { get; set; }
     public ICollection<Comment> Comments { get; set; }
-    public ICollection<TaskHistory> TaskHistories { get; set; }
     public ICollection<CommitHistory> CommitHistories { get; set; }
 }

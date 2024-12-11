@@ -20,7 +20,6 @@ public class MappingProfile : Profile
         CreateStatusMap();
         CreateStatusTransition();
         CreateTaskAssociationMap();
-        CreateTaskHistoryMap();
         CreateTaskTagMap();
         CreateUserMap();
     }
@@ -103,20 +102,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.AssociatedTaskTitle, opt => opt.MapFrom(src => src.AssociatedTask.Title));
 
         CreateMap<TaskAssociationDto, TaskAssociation>();
-    }
-
-    private void CreateTaskHistoryMap()
-    {
-        CreateMap<TaskHistory, TaskHistoryDto>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
-            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
-            .ForMember(dest => dest.TaskId, opt => opt.MapFrom(src => src.TaskId))
-            .ForMember(dest => dest.OldStatusId, opt => opt.MapFrom(src => src.OldStatusId))
-            .ForMember(dest => dest.OldStatusName, opt => opt.MapFrom(src => src.OldStatus.Name))
-            .ForMember(dest => dest.NewStatusId, opt => opt.MapFrom(src => src.NewStatusId))
-            .ForMember(dest => dest.NewStatusName, opt => opt.MapFrom(src => src.NewStatus.Name))
-            .ForMember(dest => dest.DateUpdated, opt => opt.MapFrom(src => src.LastUpdated));
     }
 
     private void CreateRoleMap()

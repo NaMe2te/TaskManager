@@ -51,12 +51,6 @@ public class UserEfConfig : IEntityTypeConfiguration<User>
             .IsRequired()
             .OnDelete(DeleteBehavior.NoAction);
         
-        builder.HasMany(u => u.TaskHistories)
-            .WithOne(th => th.User)
-            .HasForeignKey(th => th.UserId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.NoAction);
-        
         builder.HasOne(u => u.Organization)
             .WithMany(th => th.Users)
             .HasForeignKey(th => th.OrganizationId)

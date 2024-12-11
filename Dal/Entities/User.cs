@@ -14,7 +14,6 @@ public class User : IdentityUser<long>
         AssignedTasks = new List<Task>();
         TaskCollaborators = new List<TaskCollaborator>();
         Comments = new List<Comment>();
-        TaskHistories = new List<TaskHistory>();
 
         IsDeleted = false;
     }
@@ -36,5 +35,4 @@ public class User : IdentityUser<long>
     public ICollection<Task> AssignedTasks { get; set; }
     public ICollection<TaskCollaborator> TaskCollaborators { get; set; }
     public ICollection<Comment> Comments { get; set; }
-    public ICollection<TaskHistory> TaskHistories { get; set; }
 }
