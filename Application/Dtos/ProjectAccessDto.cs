@@ -7,7 +7,7 @@ public class ProjectAccessDto
     public long ProjectId { get; set; }
     public string ProjectName { get; set; }
     
-    public string UserId { get; set; }
+    public long UserId { get; set; }
     public string UserName { get; set; }
     public string AccessLevel { get; set; }
 }

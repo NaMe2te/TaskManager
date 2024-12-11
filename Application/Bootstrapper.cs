@@ -1,9 +1,13 @@
 using Application.AutoMapper;
 using Application.Dtos;
 using Application.Services;
+using Application.Services.BaseServices;
 using Application.Services.OrganizationServices;
+using Application.Services.ProjectAccessServices;
+using Application.Services.ProjectServices;
 using Application.Services.StatusTransitionService;
 using Application.Services.TaskServices;
+using Application.Services.UserServices;
 using Dal.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,7 +31,7 @@ public static class Bootstrapper
         services.AddScoped<ITaskService, TaskService>();
         services.AddScoped<IBaseCrudService<TaskTag, TaskTagDto, int>, TaskTagService>();
         services.AddScoped<IBaseCrudService<Role, RoleDto>, RoleService>();
-        services.AddScoped<IBaseCrudService<User, UserDto>, UserService>();
+        services.AddScoped<IUserService, UserService>();
         
         return services;
     }

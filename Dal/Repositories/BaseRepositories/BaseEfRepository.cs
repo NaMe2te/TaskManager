@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using Dal.DBContexts;
 using Dal.Entities.BaseEntities;
+using Dal.Extentions;
 using Dal.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -82,19 +83,9 @@ public class BaseEfRepository<TEntity, TId> : IBaseRepository<TEntity, TId> wher
             query = query.Where(predicate);
         }
         
-        if (paginationParams is not null)
-        {
-            query = query.Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
-                .Take(paginationParams.PageSize);
-        }
-        
-        return await query.ToListAsync();
+        return paginationParams is not null ? 
+           await query.ToPaginationListAsync(paginationParams.PageSize, paginationParams.PageNumber) : await query.ToListAsync();
     }
-    
-    /*public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null)
-    {
-        return await GetAllAsync(predicate, paginationParams, _allNavigationFields);
-    }*/
 
     public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null, params string[] includes)
     {
@@ -104,21 +95,10 @@ public class BaseEfRepository<TEntity, TId> : IBaseRepository<TEntity, TId> wher
         {
             query = query.Where(predicate);
         }
-        
 
-        if (paginationParams is not null)
-        {
-            query = query.Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
-                .Take(paginationParams.PageSize);
-        }
-
-        return query.ToList();
+        return paginationParams is not null ? 
+            query.ToPaginationList(paginationParams.PageSize, paginationParams.PageNumber) : query.ToList();
     }
-    
-    /*public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null)
-    {
-        return GetAll(predicate, paginationParams, _allNavigationFields);
-    }*/
 
     public string[] GetNavigationFields()
     {

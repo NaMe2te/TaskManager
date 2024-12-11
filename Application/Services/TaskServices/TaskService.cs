@@ -1,4 +1,5 @@
 ﻿using Application.Dtos.Task;
+using Application.Services.BaseServices;
 using AutoMapper;
 using Dal.Repositories.BaseRepositories;
 using Dal.UnitOfWork;
@@ -10,8 +11,7 @@ public class TaskService : BaseCrudService<Task, TaskDto, long>, ITaskService
 {
     public TaskService(IBaseRepository<Task, long> repository, IMapper mapper, IUnitOfWork unitOfWork)
         : base(repository, mapper, unitOfWork)
-    {
-    }
+    { }
 
 
     public async Task<TaskDetailsDto> GetDetails(long taskId)

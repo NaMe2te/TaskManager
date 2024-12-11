@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using Dal.Entities.BaseEntities;
 using Dal.Models;
 
-namespace Application.Services;
+namespace Application.Services.BaseServices;
 
 public interface IBaseCrudService<TEntity, TDto, in TId> : IBaseCrudService<TEntity, TDto>
     where TEntity : BaseEntity<TId>

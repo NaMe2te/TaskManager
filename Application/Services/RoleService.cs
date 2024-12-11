@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Application.Dtos;
+using Application.Services.BaseServices;
 using AutoMapper;
 using Dal.Entities;
 using Dal.Models;
@@ -22,21 +23,36 @@ public class RoleService : IBaseCrudService<Role, RoleDto>
     public async Task<RoleDto> Add(RoleDto dto)
     {
         var role = _mapper.Map<RoleDto, Role>(dto);
-        await _roleManager.CreateAsync(role);
+        var result = await _roleManager.CreateAsync(role);
+        if (!result.Succeeded)
+        {
+            throw new Exception(string.Join(". ", result.Errors.Select(x => x.Description)));
+        }
+        
         return dto;
     }
 
     public async Task<RoleDto> Update(RoleDto dto)
     {
         var role = _mapper.Map<RoleDto, Role>(dto);
-        await _roleManager.UpdateAsync(role);
+        var result = await _roleManager.UpdateAsync(role);
+        if (!result.Succeeded)
+        {
+            throw new Exception(string.Join(". ", result.Errors.Select(x => x.Description)));
+        }
+        
         return dto;
     }
 
     public async Task<RoleDto> Remove(RoleDto dto)
     {
         var role = _mapper.Map<RoleDto, Role>(dto);
-        await _roleManager.DeleteAsync(role);
+        var result = await _roleManager.DeleteAsync(role);
+        if (!result.Succeeded)
+        {
+            throw new Exception(string.Join(". ", result.Errors.Select(x => x.Description)));
+        }
+        
         return dto;
     }
 

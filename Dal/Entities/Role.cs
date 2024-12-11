@@ -5,11 +5,12 @@ namespace Dal.Entities;
 public class Role : IdentityRole<long>
 {
     public Role(string name, long organizationId)
-        : base(name)
     {
         OrganizationId = organizationId;
+        RoleName = name;
     }
     
+    public string RoleName { get; set; }
     
     public long OrganizationId { get; set; }
     public Organization Organization { get; set; }

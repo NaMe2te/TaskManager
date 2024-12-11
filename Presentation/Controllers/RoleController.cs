@@ -1,38 +1,17 @@
-using System.Net;
 using Application.Dtos;
 using Application.Services;
+using Application.Services.BaseServices;
 using Dal.Entities;
-using Dal.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Presentation.Controllers.BaseControllers;
 
 namespace Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RoleController : ControllerBase
+public class RoleController : BaseController<Role, RoleDto>
 {
-    private readonly RoleManager<Role> _roleManager;
-    
-    public RoleController(RoleManager<Role> roleManager)
-    {
-        _roleManager = roleManager;
-    }
-    
-    [HttpGet]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    public virtual async Task<ActionResult<IEnumerable<Role>>> GetAll([FromQuery] int? pageNumber = 1)
-    {
-        return await _roleManager.Roles.ToListAsync();
-    }
-    
-
-    [HttpPost]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    public virtual async Task<ActionResult<IdentityResult>> Create([FromBody] RoleDto dto)
-    {
-        IdentityResult a = await _roleManager.CreateAsync(new Role(dto.Name, dto.OrganizationId));
-        return Ok(a);
-    }
+    public RoleController(IBaseCrudService<Role, RoleDto> service)
+        : base(service)
+    { }
 }

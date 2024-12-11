@@ -1,5 +1,6 @@
 using Application.Dtos;
 using Application.Dtos.Task;
+using Application.Services.BaseServices;
 using Dal.Entities;
 
 namespace Application.Services.OrganizationServices;

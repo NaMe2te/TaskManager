@@ -5,7 +5,7 @@ using Dal.Models;
 using Dal.Repositories.BaseRepositories;
 using Dal.UnitOfWork;
 
-namespace Application.Services;
+namespace Application.Services.BaseServices;
 
 public class BaseCrudService<TEntity, TDto, TId> : IBaseCrudService<TEntity, TDto, TId>
     where TEntity : BaseEntity<TId>
@@ -14,14 +14,14 @@ public class BaseCrudService<TEntity, TDto, TId> : IBaseCrudService<TEntity, TDt
     protected readonly IBaseRepository<TEntity, TId> _repository;
     protected readonly IUnitOfWork _unitOfWork;
     protected readonly IMapper _mapper;
-    
+
     protected BaseCrudService(IBaseRepository<TEntity, TId> repository, IMapper mapper, IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
     }
-    
+
     public async Task<TDto> Add(TDto dto)
     {
         var entity = _mapper.Map<TEntity>(dto);
@@ -52,21 +52,10 @@ public class BaseCrudService<TEntity, TDto, TId> : IBaseCrudService<TEntity, TDt
         return _mapper.Map<TDto>(entity);
     }
 
-    public async Task<IEnumerable<TDto>> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null)
+    public async Task<IEnumerable<TDto>> GetAll(Expression<Func<TEntity, bool>>? predicate = null,
+        PaginationParams? paginationParams = null)
     {
         var entities = await _repository.GetAllAsync(predicate, paginationParams, _repository.GetNavigationFields());
         return _mapper.Map<IEnumerable<TDto>>(entities);
     }
-    
-    /// <summary>
-    /// Получение сущности, все навигационные поля которой заполнены
-    /// </summary>
-    /// <param name="predicate"></param>
-    /// <param name="paginationParams"></param>
-    /// <returns></returns>
-    /*public async Task<IEnumerable<TDto>> GetAll(Expression<Func<TEntity, bool>>? predicate = null, PaginationParams? paginationParams = null)
-    {
-        var entities = await _repository.GetAllAsync(predicate, paginationParams);
-        return _mapper.Map<IEnumerable<TDto>>(entities);
-    }*/
 }
