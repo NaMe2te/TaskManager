@@ -4,24 +4,16 @@ namespace Dal.Entities;
 
 public class CommitHistory : BaseEntity<long>
 {
-    public CommitHistory(string commitHash, DateTime commitDate, int commitNumber, long authorId, long taskId)
+    public CommitHistory(string branchName, string repositoryOwner, string repositoryName)
     {
-        CommitHash = commitHash;
-        CommitDate = commitDate;
-        CommitNumber = commitNumber;
-        AuthorId = authorId;
-        TaskId = taskId;
+        BranchName = branchName;
+        RepositoryOwner = repositoryOwner;
+        RepositoryName = repositoryName;
     }
-    
+
     protected CommitHistory() { }
     
-    public string CommitHash { get; set; }
-    public DateTime CommitDate { get; set; }
-    public int CommitNumber { get; set; }
-
-    public long AuthorId { get; set; }
-    public User Author { get; set; }
-    
-    public long TaskId { get; set; }
-    public Task Task { get; set; }
+    public string BranchName { get; set; }
+    public string RepositoryOwner { get; set; }
+    public string RepositoryName { get; set; }
 }

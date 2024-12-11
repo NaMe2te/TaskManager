@@ -7,11 +7,28 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dal.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CommitHistory",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BranchName = table.Column<string>(type: "text", nullable: false),
+                    RepositoryOwner = table.Column<string>(type: "text", nullable: false),
+                    RepositoryName = table.Column<string>(type: "text", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommitHistory", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Organizations",
                 columns: table => new
@@ -48,6 +65,7 @@ namespace Dal.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleName = table.Column<string>(type: "text", nullable: false),
                     OrganizationId = table.Column<long>(type: "bigint", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -60,6 +78,44 @@ namespace Dal.Migrations
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AspNetRoles_Organizations_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    OrganizationId = table.Column<long>(type: "bigint", nullable: false),
+                    DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
                         principalColumn: "Id",
@@ -131,83 +187,6 @@ namespace Dal.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RoleId = table.Column<long>(type: "bigint", nullable: false),
-                    OrganizationId = table.Column<long>(type: "bigint", nullable: false),
-                    DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Organizations_OrganizationId",
-                        column: x => x.OrganizationId,
-                        principalTable: "Organizations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StatusTransition",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    OrganizationId = table.Column<long>(type: "bigint", nullable: false),
-                    FromId = table.Column<int>(type: "integer", nullable: false),
-                    ToId = table.Column<int>(type: "integer", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StatusTransition", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StatusTransition_Organizations_OrganizationId",
-                        column: x => x.OrganizationId,
-                        principalTable: "Organizations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StatusTransition_Statuses_FromId",
-                        column: x => x.FromId,
-                        principalTable: "Statuses",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_StatusTransition_Statuses_ToId",
-                        column: x => x.ToId,
-                        principalTable: "Statuses",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -324,6 +303,39 @@ namespace Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StatusTransition",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrganizationId = table.Column<long>(type: "bigint", nullable: false),
+                    FromId = table.Column<int>(type: "integer", nullable: false),
+                    ToId = table.Column<int>(type: "integer", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StatusTransition", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StatusTransition_Organizations_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StatusTransition_Statuses_FromId",
+                        column: x => x.FromId,
+                        principalTable: "Statuses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StatusTransition_Statuses_ToId",
+                        column: x => x.ToId,
+                        principalTable: "Statuses",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tasks",
                 columns: table => new
                 {
@@ -396,35 +408,6 @@ namespace Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CommitHistories",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CommitHash = table.Column<string>(type: "text", nullable: false),
-                    CommitDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CommitNumber = table.Column<int>(type: "integer", nullable: false),
-                    AuthorId = table.Column<long>(type: "bigint", nullable: false),
-                    TaskId = table.Column<long>(type: "bigint", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommitHistories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CommitHistories_AspNetUsers_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_CommitHistories_Tasks_TaskId",
-                        column: x => x.TaskId,
-                        principalTable: "Tasks",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TaskAssociations",
                 columns: table => new
                 {
@@ -479,44 +462,6 @@ namespace Dal.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "TaskHistories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
-                    TaskId = table.Column<long>(type: "bigint", nullable: false),
-                    OldStatusId = table.Column<int>(type: "integer", nullable: false),
-                    NewStatusId = table.Column<int>(type: "integer", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TaskHistories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TaskHistories_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TaskHistories_Statuses_NewStatusId",
-                        column: x => x.NewStatusId,
-                        principalTable: "Statuses",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TaskHistories_Statuses_OldStatusId",
-                        column: x => x.OldStatusId,
-                        principalTable: "Statuses",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TaskHistories_Tasks_TaskId",
-                        column: x => x.TaskId,
-                        principalTable: "Tasks",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -559,11 +504,6 @@ namespace Dal.Migrations
                 column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_RoleId",
-                table: "AspNetUsers",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -577,16 +517,6 @@ namespace Dal.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_TaskId",
                 table: "Comments",
-                column: "TaskId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CommitHistories_AuthorId",
-                table: "CommitHistories",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CommitHistories_TaskId",
-                table: "CommitHistories",
                 column: "TaskId");
 
             migrationBuilder.CreateIndex(
@@ -652,26 +582,6 @@ namespace Dal.Migrations
                 column: "TaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskHistories_NewStatusId",
-                table: "TaskHistories",
-                column: "NewStatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskHistories_OldStatusId",
-                table: "TaskHistories",
-                column: "OldStatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskHistories_TaskId",
-                table: "TaskHistories",
-                column: "TaskId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskHistories_UserId",
-                table: "TaskHistories",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tasks_AssignedTo",
                 table: "Tasks",
                 column: "AssignedTo");
@@ -714,7 +624,7 @@ namespace Dal.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "CommitHistories");
+                name: "CommitHistory");
 
             migrationBuilder.DropTable(
                 name: "ProjectAccesses");
@@ -729,10 +639,10 @@ namespace Dal.Migrations
                 name: "TaskCollaborators");
 
             migrationBuilder.DropTable(
-                name: "TaskHistories");
+                name: "TaskTags");
 
             migrationBuilder.DropTable(
-                name: "TaskTags");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Tasks");
@@ -745,9 +655,6 @@ namespace Dal.Migrations
 
             migrationBuilder.DropTable(
                 name: "Statuses");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Organizations");

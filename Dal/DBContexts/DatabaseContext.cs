@@ -16,6 +16,7 @@ public class DatabaseContext : IdentityDbContext<User, Role, long>
     public DbSet<Task> Tasks { get; set; }
     public DbSet<TaskAssociation> TaskAssociations { get; set; }
     public DbSet<TaskCollaborator> TaskCollaborators { get; set; }
+    public DbSet<CommitHistory> CommitHistory { get; set; }
     public DbSet<TaskTag> TaskTags { get; set; }
     
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)

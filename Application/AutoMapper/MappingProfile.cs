@@ -22,6 +22,7 @@ public class MappingProfile : Profile
         CreateTaskAssociationMap();
         CreateTaskTagMap();
         CreateUserMap();
+        CreateCommitHistoryMap();
     }
 
     private void CreateCommentMap()
@@ -134,5 +135,10 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.RoleName, opt =>
                 opt.MapFrom((src, dest, destMember, context) => context.Items["Role"]))
             .ReverseMap();
+    }
+    
+    private void CreateCommitHistoryMap()
+    {
+        CreateMap<CommitHistory, CommitHistoryDto>().ReverseMap();
     }
 }

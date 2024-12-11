@@ -29,6 +29,7 @@ public static class Bootstrapper
         services.AddScoped<IBaseCrudService<StatusTransition, StatusTransitionDto, long>, StatusTransitionService>();
         services.AddScoped<ITaskService, TaskService>();
         services.AddScoped<IBaseCrudService<TaskTag, TaskTagDto, int>, TaskTagService>();
+        services.AddScoped<IBaseCrudService<CommitHistory, CommitHistoryDto, long>, CommitHistoryService>();
         services.AddScoped<IBaseCrudService<Role, RoleDto>, RoleService>();
         services.AddScoped<IUserService, UserService>();
         

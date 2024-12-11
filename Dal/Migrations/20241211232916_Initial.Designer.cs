@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dal.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241211171359_AddRoleNameToRole")]
-    partial class AddRoleNameToRole
+    [Migration("20241211232916_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,18 +67,9 @@ namespace Dal.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AuthorId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CommitDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CommitHash")
+                    b.Property<string>("BranchName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("CommitNumber")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
@@ -86,16 +77,17 @@ namespace Dal.Migrations
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("TaskId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("RepositoryName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RepositoryOwner")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("TaskId");
-
-                    b.ToTable("CommitHistories");
+                    b.ToTable("CommitHistory");
                 });
 
             modelBuilder.Entity("Dal.Entities.Organization", b =>
@@ -415,45 +407,6 @@ namespace Dal.Migrations
                     b.ToTable("TaskCollaborators");
                 });
 
-            modelBuilder.Entity("Dal.Entities.TaskHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("NewStatusId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("OldStatusId")
-                        .HasColumnType("integer");
-
-                    b.Property<long>("TaskId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NewStatusId");
-
-                    b.HasIndex("OldStatusId");
-
-                    b.HasIndex("TaskId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TaskHistories");
-                });
-
             modelBuilder.Entity("Dal.Entities.TaskTag", b =>
                 {
                     b.Property<int>("Id")
@@ -688,25 +641,6 @@ namespace Dal.Migrations
                     b.Navigation("Task");
                 });
 
-            modelBuilder.Entity("Dal.Entities.CommitHistory", b =>
-                {
-                    b.HasOne("Dal.Entities.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Dal.Entities.Task", "Task")
-                        .WithMany("CommitHistories")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Task");
-                });
-
             modelBuilder.Entity("Dal.Entities.Project", b =>
                 {
                     b.HasOne("Dal.Entities.Organization", "Organization")
@@ -857,41 +791,6 @@ namespace Dal.Migrations
                     b.Navigation("Task");
                 });
 
-            modelBuilder.Entity("Dal.Entities.TaskHistory", b =>
-                {
-                    b.HasOne("Dal.Entities.Status", "NewStatus")
-                        .WithMany()
-                        .HasForeignKey("NewStatusId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Dal.Entities.Status", "OldStatus")
-                        .WithMany()
-                        .HasForeignKey("OldStatusId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Dal.Entities.Task", "Task")
-                        .WithMany("TaskHistories")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Dal.Entities.User", "User")
-                        .WithMany("TaskHistories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("NewStatus");
-
-                    b.Navigation("OldStatus");
-
-                    b.Navigation("Task");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Dal.Entities.User", b =>
                 {
                     b.HasOne("Dal.Entities.Organization", "Organization")
@@ -978,11 +877,7 @@ namespace Dal.Migrations
 
                     b.Navigation("Comments");
 
-                    b.Navigation("CommitHistories");
-
                     b.Navigation("TaskCollaborators");
-
-                    b.Navigation("TaskHistories");
                 });
 
             modelBuilder.Entity("Dal.Entities.User", b =>
@@ -994,8 +889,6 @@ namespace Dal.Migrations
                     b.Navigation("CreatedTasks");
 
                     b.Navigation("TaskCollaborators");
-
-                    b.Navigation("TaskHistories");
                 });
 #pragma warning restore 612, 618
         }

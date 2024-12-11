@@ -51,10 +51,5 @@ public class TaskEfConfig : BaseEntityConfig<Entities.Task, long>
             .WithOne(c => c.Task)
             .HasForeignKey(c => c.TaskId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(t => t.CommitHistories)
-            .WithOne(ch => ch.Task)
-            .HasForeignKey(ch => ch.TaskId)
-            .OnDelete(DeleteBehavior.NoAction);
     }
 }
