@@ -13,15 +13,13 @@ public class UserController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly RoleManager<Role> _roleManager;
     private readonly IMapper _mapper;
 
-    public UserController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, RoleManager<Role> roleManager)
+    public UserController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _mapper = mapper;
-        _roleManager = roleManager;
     }
 
     [HttpPost(nameof(Register))]
@@ -66,6 +64,8 @@ public class UserController : ControllerBase
         {
             return BadRequest("Invalid email or password.");
         }
+
+        await _signInManager.SignInAsync(user, true);
         
         var roles = await _userManager.GetRolesAsync(user);
         var roleName = roles.FirstOrDefault() ?? string.Empty;

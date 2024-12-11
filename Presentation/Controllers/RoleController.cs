@@ -27,13 +27,6 @@ public class RoleController : ControllerBase
         return await _roleManager.Roles.ToListAsync();
     }
     
-    /*[HttpGet("{id}")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    public virtual async Task<ActionResult<IEnumerable<TDto>>> Get([FromRoute] TId id)
-    {
-        var dto = await _service.GetById(id);
-        return Ok(dto);
-    }*/
 
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.OK)]
