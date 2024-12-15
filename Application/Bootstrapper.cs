@@ -32,6 +32,7 @@ public static class Bootstrapper
         services.AddScoped<IBaseCrudService<CommitHistory, CommitHistoryDto, long>, CommitHistoryService>();
         services.AddScoped<IBaseCrudService<Role, RoleDto>, RoleService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IProjectService, ProjectService>();
         
         return services;
     }
