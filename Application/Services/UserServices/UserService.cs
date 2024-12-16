@@ -16,17 +16,19 @@ public class UserService : IUserService
 {
     private readonly IBaseRepository<Task, long> _taskRepository;
     private readonly UserManager<User> _userManager;
+    private readonly RoleManager<Role> _roleManager;
     private readonly IMapper _mapper;
 
-    public UserService(IBaseRepository<Task, long> taskRepository, IMapper mapper, UserManager<User> userManager)
+    public UserService(IBaseRepository<Task, long> taskRepository, IMapper mapper, UserManager<User> userManager, RoleManager<Role> roleManager)
     {
         _taskRepository = taskRepository;
         _mapper = mapper;
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     public async Task<UserDto> Add(UserDto dto)
-    {
+    { 
         User? user = _mapper.Map<UserDto, User>(dto);
         await _userManager.CreateAsync(user);
         return dto;
@@ -63,7 +65,11 @@ public class UserService : IUserService
         foreach (var user in users)
         {
             var role = await GetRoleByUser(user);
-            var userDto = _mapper.Map<UserDto>(user, opt => opt.Items["Role"] = role);
+            var userDto = _mapper.Map<User, UserDto>(user, options =>
+            {
+                options.Items["Role"] = role.Name;
+                options.Items["RoleId"] = role.Id;
+            });
             usersWithRoles.Add(userDto);
         }
 
@@ -76,9 +82,12 @@ public class UserService : IUserService
         return _mapper.Map<IEnumerable<Task>, IEnumerable<TaskDto>>(tasksByUser);
     }
 
-    private async Task<string> GetRoleByUser(User user)
+    private async Task<(long Id, string Name)> GetRoleByUser(User user)
     {
-        var userRoles = await _userManager.GetRolesAsync(user);
-        return userRoles.First();
+        var roles = await _userManager.GetRolesAsync(user);
+        var roleName = roles.FirstOrDefault() ?? string.Empty;
+        var role = await _roleManager.FindByNameAsync(roleName);
+
+        return (role.Id, role.RoleName);
     }
 }

@@ -133,7 +133,9 @@ public class MappingProfile : Profile
     {
         CreateMap<User, UserDto>()
             .ForMember(dest => dest.RoleName, opt =>
-                opt.MapFrom((src, dest, destMember, context) => context.Items["Role"]))
+                opt.MapFrom((_, _, _, context) => context.Items["Role"] as string))
+            .ForMember(dest => dest.RoleId, opt => 
+                opt.MapFrom((_, _, _, context) => context.Items["RoleId"]))
             .ReverseMap();
     }
     

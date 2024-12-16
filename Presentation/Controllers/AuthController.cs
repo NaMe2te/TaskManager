@@ -35,8 +35,14 @@ public class AuthController : ControllerBase
             var errors = string.Join(". ", createUserResult.Errors.Select(x => x.Description));
             return BadRequest( errors );
         }
+        
+        var role = await _roleManager.FindByIdAsync(model.RoleId.ToString());
+        if (role == null)
+        {
+            return BadRequest("Роль не найдена.");
+        }
 
-        IdentityResult addToRoleResult = await _userManager.AddToRoleAsync(user, model.RoleName);
+        var addToRoleResult = await _userManager.AddToRoleAsync(user, role.Name);
         if (!addToRoleResult.Succeeded)
         {
             var errors = string.Join(". ", createUserResult.Errors.Select(x => x.Description));
@@ -45,7 +51,11 @@ public class AuthController : ControllerBase
         
         await _signInManager.SignInAsync(user, true);
 
-        var userDto = _mapper.Map<User, UserDto>(user, options => options.Items["Role"] = model.RoleName);
+        var userDto = _mapper.Map<User, UserDto>(user, options =>
+        {
+            options.Items["Role"] = role.RoleName;
+            options.Items["RoleId"] = role.Id;
+        });
         return Ok(userDto);
     }
     
@@ -70,8 +80,13 @@ public class AuthController : ControllerBase
         
         var roles = await _userManager.GetRolesAsync(user);
         var roleName = roles.FirstOrDefault() ?? string.Empty;
+        var role = await _roleManager.FindByNameAsync(roleName);
         
-        var userDto = _mapper.Map<User, UserDto>(user, options => options.Items["Role"] = roleName);
+        var userDto = _mapper.Map<User, UserDto>(user, options =>
+        {
+            options.Items["Role"] = roleName;
+            options.Items["RoleId"] = role.Id;
+        });
         return Ok(userDto);
     }
 

@@ -22,6 +22,6 @@ public class RoleEfConfig : IEntityTypeConfiguration<Role>
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
         
-        builder.Property(r => r.Name).HasMaxLength(50).IsRequired();
+        builder.Property(r => r.RoleName).HasMaxLength(50).IsRequired();
     }
 }

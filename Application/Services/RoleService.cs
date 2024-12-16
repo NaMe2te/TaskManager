@@ -22,7 +22,7 @@ public class RoleService : IBaseCrudService<Role, RoleDto>
 
     public async Task<RoleDto> Add(RoleDto dto)
     {
-        var role = _mapper.Map<RoleDto, Role>(dto);
+        var role = new Role(dto.RoleName, dto.OrganizationId);
         var result = await _roleManager.CreateAsync(role);
         if (!result.Succeeded)
         {

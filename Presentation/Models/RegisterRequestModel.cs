@@ -6,5 +6,5 @@ public class RegisterRequestModel
     public string Password { get; set; }
     public string Email { get; set; }
     public long OrganizationId { get; set; }
-    public string RoleName { get; set; }
+    public long RoleId { get; set; }
 }

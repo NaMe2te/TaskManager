@@ -5,10 +5,13 @@ namespace Dal.Entities;
 public class Role : IdentityRole<long>
 {
     public Role(string name, long organizationId)
+        : base(Guid.NewGuid().ToString())
     {
         OrganizationId = organizationId;
         RoleName = name;
     }
+    
+    protected Role() { }
     
     public string RoleName { get; set; }
     
