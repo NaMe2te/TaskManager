@@ -36,7 +36,20 @@ public class UserService : IUserService
 
     public async Task<UserDto> Update(UserDto dto)
     {
-        User? user = _mapper.Map<UserDto, User>(dto);
+        var user = await _userManager.FindByIdAsync(dto.Id.ToString());
+
+        if (user == null) 
+        {
+            throw new ArgumentNullException(nameof(user));
+        }
+    
+        user.FullName = user.FullName;
+        user.OrganizationId = user.OrganizationId;
+        user.DateDeleted = user.DateDeleted;
+        user.IsDeleted = user.IsDeleted;
+        user.DateCreated = user.DateCreated;
+        user.LastUpdated = user.LastUpdated;
+    
         await _userManager.UpdateAsync(user);
         return dto;
     }
