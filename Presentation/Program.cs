@@ -8,6 +8,16 @@ using Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "_myAllowSpecificOrigins",
+        policy  =>
+        {
+            policy.WithOrigins("http://localhost:3000").AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 builder.Services.AddApplication();
 builder.Services.AddRepositories();
 builder.Services.AddUnitOfWork();
@@ -41,6 +51,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("_myAllowSpecificOrigins");
 
 app.UseAuthentication();
 app.UseAuthorization();
