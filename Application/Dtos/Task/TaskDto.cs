@@ -12,5 +12,7 @@ public class TaskDto
     public string? ProjectName { get; set; }
     public long? AssignedTo { get; set; }
     public string? AssigneeName { get; set; }
+    
+    public int? StatusId { get; set; }
     public StatusDto? Status { get; set; }
 }
