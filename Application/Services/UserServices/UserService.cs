@@ -88,7 +88,7 @@ public class UserService : IUserService
         
             var userDto = _mapper.Map<User, UserDto>(user, options =>
             {
-                options.Items["Role"] = roleName;
+                options.Items["Role"] = role.RoleName;
                 options.Items["RoleId"] = role.Id;
             });
             
@@ -106,7 +106,7 @@ public class UserService : IUserService
         
         return _mapper.Map<User, UserDto>(user, options =>
         {
-            options.Items["Role"] = roleName;
+            options.Items["Role"] = role.RoleName;
             options.Items["RoleId"] = role.Id;
         });
     }

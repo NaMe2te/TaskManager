@@ -29,7 +29,7 @@ public class RoleService : IBaseCrudService<Role, RoleDto>
             throw new Exception(string.Join(". ", result.Errors.Select(x => x.Description)));
         }
         
-        return dto;
+        return _mapper.Map<Role, RoleDto>(role);
     }
 
     public async Task<RoleDto> Update(RoleDto dto)
