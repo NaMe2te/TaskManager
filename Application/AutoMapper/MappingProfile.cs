@@ -62,7 +62,11 @@ public class MappingProfile : Profile
     private void CreateTaskMap()
     {
         CreateMap<Task, TaskDto>()
-            .ForMember(dest => dest.ProjectName, opt => opt.MapFrom(src => src.Project.Name));
+            .ForMember(dest => dest.ProjectName, opt => opt.MapFrom(src => src.Project.Name))
+            .ForMember(dest => dest.AssigneeName,
+                opt => opt.MapFrom(src => src.Assignee != null ? src.Assignee.FullName : null))
+            .ForMember(dest => dest.CreatorName,
+                opt => opt.MapFrom(src => src.Creator.FullName));
 
         CreateMap<TaskDto, Task>()
             .ForMember(dest => dest.Creator, opt => opt.Ignore())
