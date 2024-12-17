@@ -1,8 +1,11 @@
+using System.Linq.Expressions;
 using Application.Dtos;
 using Application.Dtos.Task;
 using Application.Services.BaseServices;
+using Application.Services.UserServices;
 using AutoMapper;
 using Dal.Entities;
+using Dal.Models;
 using Dal.Repositories.BaseRepositories;
 using Dal.UnitOfWork;
 using Task = Dal.Entities.Task;
@@ -13,14 +16,17 @@ public class OrganizationService : BaseCrudService<Organization, OrganizationDto
     IOrganizationService
 {
     private readonly IBaseRepository<Task, long> _taskRepository;
+    private readonly IUserService _userService;
 
     public OrganizationService(IBaseRepository<Organization, long> repository,
-        IBaseRepository<Task, long> taskRepository, IMapper mapper, IUnitOfWork unitOfWork)
+        IBaseRepository<Task, long> taskRepository,
+        IUserService userService,
+        IMapper mapper, IUnitOfWork unitOfWork)
         : base(repository, mapper, unitOfWork)
     {
         _taskRepository = taskRepository;
+        _userService = userService;
     }
-
 
     public async Task<IEnumerable<TaskDto>> GetAllTasks(long organizationId)
     {
@@ -63,6 +69,6 @@ public class OrganizationService : BaseCrudService<Organization, OrganizationDto
     public async Task<IEnumerable<UserDto>> GetAllUsers(long organizationId)
     {
         var organization = await _repository.GetAsync(x => x.Id == organizationId, "Users");
-        return _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(organization.Users);
+        return await _userService.GetUsersWithRoles(organization.Users);
     }
 }

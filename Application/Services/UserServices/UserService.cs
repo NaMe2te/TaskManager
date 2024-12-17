@@ -73,21 +73,44 @@ public class UserService : IUserService
         var users = paginationParams is not null ? 
             await query.ToPaginationListAsync(paginationParams.PageSize, paginationParams.PageNumber) : await query.ToListAsync();
 
-        var usersWithRoles = new List<UserDto>();
-
+        return await GetUsersWithRoles(users);
+    }
+    
+    public async Task<IEnumerable<UserDto>> GetUsersWithRoles(IEnumerable<User> users)
+    {
+        var userDtos = new List<UserDto>();
+        
         foreach (var user in users)
         {
-            var role = await GetRoleByUser(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var roleName = roles.FirstOrDefault() ?? string.Empty;
+            var role = await _roleManager.FindByNameAsync(roleName);
+        
             var userDto = _mapper.Map<User, UserDto>(user, options =>
             {
-                options.Items["Role"] = role.Name;
+                options.Items["Role"] = roleName;
                 options.Items["RoleId"] = role.Id;
             });
-            usersWithRoles.Add(userDto);
+            
+            userDtos.Add(userDto);
         }
 
-        return usersWithRoles;
+        return userDtos;
     }
+    
+    public async Task<UserDto> GetUserWithRole(User user)
+    {
+        var roles = await _userManager.GetRolesAsync(user);
+        var roleName = roles.FirstOrDefault() ?? string.Empty;
+        var role = await _roleManager.FindByNameAsync(roleName);
+        
+        return _mapper.Map<User, UserDto>(user, options =>
+        {
+            options.Items["Role"] = roleName;
+            options.Items["RoleId"] = role.Id;
+        });
+    }
+
     
     public async Task<IEnumerable<TaskDto>> GetTasksByUser(long userId)
     {
@@ -95,7 +118,13 @@ public class UserService : IUserService
         return _mapper.Map<IEnumerable<Task>, IEnumerable<TaskDto>>(tasksByUser);
     }
 
-    private async Task<(long Id, string Name)> GetRoleByUser(User user)
+    public async Task<(long Id, string Name)> GetRoleByUser(long userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        return await GetRoleByUser(user);
+    }
+
+    public async Task<(long Id, string Name)> GetRoleByUser(User user)
     {
         var roles = await _userManager.GetRolesAsync(user);
         var roleName = roles.FirstOrDefault() ?? string.Empty;

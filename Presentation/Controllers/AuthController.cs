@@ -1,4 +1,5 @@
 using Application.Dtos;
+using Application.Services.UserServices;
 using AutoMapper;
 using Dal.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -14,14 +15,16 @@ public class AuthController : ControllerBase
     private readonly RoleManager<Role> _roleManager;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly IUserService _service;
     private readonly IMapper _mapper;
 
-    public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, RoleManager<Role> roleManager)
+    public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, RoleManager<Role> roleManager, IUserService service)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _mapper = mapper;
         _roleManager = roleManager;
+        _service = service;
     }
 
     [HttpPost(nameof(Register))]
@@ -77,16 +80,9 @@ public class AuthController : ControllerBase
         }
 
         await _signInManager.SignInAsync(user, true);
-        
-        var roles = await _userManager.GetRolesAsync(user);
-        var roleName = roles.FirstOrDefault() ?? string.Empty;
-        var role = await _roleManager.FindByNameAsync(roleName);
-        
-        var userDto = _mapper.Map<User, UserDto>(user, options =>
-        {
-            options.Items["Role"] = roleName;
-            options.Items["RoleId"] = role.Id;
-        });
+
+        var userDto = await _service.GetUserWithRole(user);
+       
         return Ok(userDto);
     }
 

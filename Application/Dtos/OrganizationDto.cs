@@ -8,5 +8,4 @@ public class OrganizationDto
     public List<StatusDto> Statuses { get; set; } = new();
     public List<StatusTransitionDto> StatusTransitions { get; set; } = new();
     public List<RoleDto> Roles { get; set; } = new();
-    public List<UserDto> Users { get; set; } = new();
 }
