@@ -14,14 +14,8 @@ public class StatusTransitionService : BaseCrudService<StatusTransition, StatusT
 
     public async Task<IEnumerable<StatusTransitionDto>> GetStatusTransitionsToFrom(int statusTo)
     {
-        var statuses = await _repository.GetAllAsync();
-        var result = statuses.Where(x => x.ToId == statusTo)
-            .Select(x => x.FromId);
+        var statuses = await _repository.GetAllAsync(x => x.ToId == statusTo, null, _repository.GetNavigationFields());
         
-        return result
-            .Select(fromStatusId => new StatusTransitionDto
-            {
-                FromId = fromStatusId, ToId = statusTo
-            });
+        return _mapper.Map<IEnumerable<StatusTransitionDto>>(statuses);
     }
 }
