@@ -4,13 +4,14 @@ namespace Dal.Entities;
 
 public class Task : BaseEntity<long>
 {
-    public Task(string title, string description, long createdBy, long projectId, long? assignedTo = null, int? statusId = null, DateTime? dueDate = null)
+    public Task(string title, string description, long createdBy, long projectId, long commitHistoryId, long? assignedTo = null, int? statusId = null, DateTime? dueDate = null)
     {
         Title = title;
         Description = description;
         DueDate = dueDate;
         CreatedBy = createdBy;
         ProjectId = projectId;
+        CommitHistoryId = commitHistoryId;
         AssignedTo = assignedTo;
         StatusId = statusId;
         AssociatedTasks = new List<TaskAssociation>();
@@ -18,8 +19,14 @@ public class Task : BaseEntity<long>
         Comments = new List<Comment>();
     }
     
-    protected Task() { }
+    protected Task(long commitHistoryId)
+    {
+        CommitHistoryId = commitHistoryId;
+    }
 
+    public long CommitHistoryId { get; set; }
+    public CommitHistory CommitHistory { get; set; }
+    
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime? DueDate { get; set; }
