@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using System.Xml.Schema;
 using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
 using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,7 @@ public class TaskEfConfig : BaseEntityConfig<Entities.Task, long>
         builder.HasOne(t => t.CommitHistory)
             .WithOne()
             .HasForeignKey<Task>(x => x.CommitHistoryId)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

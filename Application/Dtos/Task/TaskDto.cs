@@ -9,8 +9,8 @@ public class TaskDto
     public long CreatedBy { get; set; }
     public string? CreatorName { get; set; }
     public long ProjectId { get; set; }
-    public long CommitHistoryId { get; set; }
     public string? ProjectName { get; set; }
+    public long? CommitHistoryId { get; set; }
     public long? AssignedTo { get; set; }
     public string? AssigneeName { get; set; }
     
