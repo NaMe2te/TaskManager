@@ -25,8 +25,8 @@ public class TaskController : BaseController<Task, TaskDto, long>
         return await ((ITaskService) _service).GetTasksCreatedByUserId(userId);
     }
     
-    [HttpGet(nameof(GetTGetTasksAssignedToUserId))]
-    public async Task<IEnumerable<TaskDto>> GetTGetTasksAssignedToUserId([FromBody] long userId)
+    [HttpGet(nameof(GetTasksAssignedToUserId))]
+    public async Task<IEnumerable<TaskDto>> GetTasksAssignedToUserId([FromQuery] long userId)
     {
         return await ((ITaskService) _service).GetTasksAssignedToUserId(userId);
     }
