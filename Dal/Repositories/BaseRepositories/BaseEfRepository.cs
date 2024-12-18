@@ -22,26 +22,111 @@ public class BaseEfRepository<TEntity, TId> : IBaseRepository<TEntity, TId> wher
     {
         model.DateCreated = model.LastUpdated = DateTime.Now;
         var addedEntity = await _context.Set<TEntity>().AddAsync(model).ConfigureAwait(false);
+    
+        // Обновляем трекер изменений
+        _context.ChangeTracker.DetectChanges();
+
+        // Загружаем все навигационные свойства
+        foreach (var navigationField in _allNavigationFields)
+        {
+            // Проверяем, является ли навигационное свойство коллекцией
+            var navigation = _context.Entry(addedEntity.Entity).Metadata.FindNavigation(navigationField);
+            if (navigation != null && navigation.IsCollection)
+            {
+                // Используем Collection для коллекций
+                await _context.Entry(addedEntity.Entity).Collection(navigationField).LoadAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                // Используем Reference для одиночных свойств
+                await _context.Entry(addedEntity.Entity).Reference(navigationField).LoadAsync().ConfigureAwait(false);
+            }
+        }
+
         return addedEntity.Entity;
     }
-
+    
     public TEntity Add(TEntity model)
     {
         model.DateCreated = model.LastUpdated = DateTime.Now;
-        return _context.Set<TEntity>().Add(model).Entity;
+        var addedEntity = _context.Set<TEntity>().Add(model).Entity;
+        
+        // Обновляем трекер изменений
+        _context.ChangeTracker.DetectChanges();
+
+        // Загружаем все навигационные свойства
+        foreach (var navigationField in _allNavigationFields)
+        {
+            var navigation = _context.Entry(addedEntity).Metadata.FindNavigation(navigationField);
+            if (navigation != null && navigation.IsCollection)
+            {
+                // Используем Collection для коллекций
+                _context.Entry(addedEntity).Collection(navigationField).Load();
+            }
+            else
+            {
+                // Используем Reference для одиночных свойств
+                _context.Entry(addedEntity).Reference(navigationField).Load();
+            }
+        }
+
+        return addedEntity;
     }
 
-    public Task<TEntity> UpdateAsync(TEntity model)
+    public async Task<TEntity> UpdateAsync(TEntity model)
     {
         var entity = _context.Set<TEntity>().Update(model).Entity;
         entity.LastUpdated = DateTime.Now;
-        return Task.FromResult(entity);
+
+        // Обновляем трекер изменений
+        _context.ChangeTracker.DetectChanges();
+
+        // Загружаем все навигационные свойства
+        foreach (var navigationField in _allNavigationFields)
+        {
+            var navigation = _context.Entry(entity).Metadata.FindNavigation(navigationField);
+            if (navigation != null && navigation.IsCollection)
+            {
+                // Используем Collection для коллекций
+                await _context.Entry(entity).Collection(navigationField).LoadAsync();
+            }
+            else
+            {
+                // Используем Reference для одиночных свойств
+                await _context.Entry(entity).Reference(navigationField).LoadAsync();
+            }
+        }
+
+        return entity;
     }
 
     public TEntity Update(TEntity model)
     {
-        return _context.Set<TEntity>().Update(model).Entity;
+        var entity = _context.Set<TEntity>().Update(model).Entity;
+        entity.LastUpdated = DateTime.Now;
+
+        // Обновляем трекер изменений
+        _context.ChangeTracker.DetectChanges();
+
+        // Загружаем все навигационные свойства
+        foreach (var navigationField in _allNavigationFields)
+        {
+            var navigation = _context.Entry(entity).Metadata.FindNavigation(navigationField);
+            if (navigation != null && navigation.IsCollection)
+            {
+                // Используем Collection для коллекций
+                _context.Entry(entity).Collection(navigationField).Load();
+            }
+            else
+            {
+                // Используем Reference для одиночных свойств
+                _context.Entry(entity).Reference(navigationField).Load();
+            }
+        }
+
+        return entity;
     }
+
 
     public virtual Task<TEntity> DeleteAsync(TEntity model)
     {
