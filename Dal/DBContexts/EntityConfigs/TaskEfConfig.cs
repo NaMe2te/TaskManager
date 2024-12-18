@@ -1,7 +1,9 @@
-﻿using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
+﻿using System.Security.Cryptography.X509Certificates;
+using Dal.DBContexts.EntityConfigs.BaseEntityConfigs;
 using Dal.Entities.BaseEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Task = Dal.Entities.Task;
 
 namespace Dal.DBContexts.EntityConfigs;
 
@@ -50,6 +52,11 @@ public class TaskEfConfig : BaseEntityConfig<Entities.Task, long>
         builder.HasMany(t => t.Comments)
             .WithOne(c => c.Task)
             .HasForeignKey(c => c.TaskId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(t => t.CommitHistory)
+            .WithOne()
+            .HasForeignKey<Task>(x => x.CommitHistoryId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
