@@ -33,6 +33,7 @@ public static class Bootstrapper
         services.AddScoped<IBaseCrudService<Role, RoleDto>, RoleService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<IStatusTransitionService, StatusTransitionService>();
         
         return services;
     }
